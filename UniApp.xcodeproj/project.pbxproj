@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		77C0811A49076538AE688848 /* Pods_UniApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEAD9AC1A904436D11141E97 /* Pods_UniApp.framework */; };
 		F84A8A211EFAC26E00FA6F35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A8A201EFAC26E00FA6F35 /* AppDelegate.swift */; };
 		F84A8A231EFAC26E00FA6F35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A8A221EFAC26E00FA6F35 /* ViewController.swift */; };
 		F84A8A261EFAC26E00FA6F35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F84A8A241EFAC26E00FA6F35 /* Main.storyboard */; };
@@ -15,6 +16,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C5F7C7ED6D5B91B9082A9E69 /* Pods-UniApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UniApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UniApp/Pods-UniApp.debug.xcconfig"; sourceTree = "<group>"; };
+		E921A7BA38C1646B7A194A2C /* Pods-UniApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UniApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-UniApp/Pods-UniApp.release.xcconfig"; sourceTree = "<group>"; };
+		EEAD9AC1A904436D11141E97 /* Pods_UniApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UniApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F84A8A1D1EFAC26E00FA6F35 /* UniApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F84A8A201EFAC26E00FA6F35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F84A8A221EFAC26E00FA6F35 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,17 +33,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77C0811A49076538AE688848 /* Pods_UniApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E3CA16B793E925C7419044E7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C5F7C7ED6D5B91B9082A9E69 /* Pods-UniApp.debug.xcconfig */,
+				E921A7BA38C1646B7A194A2C /* Pods-UniApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F14431F892A70E44D3056EC7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EEAD9AC1A904436D11141E97 /* Pods_UniApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F84A8A141EFAC26E00FA6F35 = {
 			isa = PBXGroup;
 			children = (
 				F84A8A1F1EFAC26E00FA6F35 /* UniApp */,
 				F84A8A1E1EFAC26E00FA6F35 /* Products */,
+				E3CA16B793E925C7419044E7 /* Pods */,
+				F14431F892A70E44D3056EC7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,9 +95,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F84A8A2F1EFAC26E00FA6F35 /* Build configuration list for PBXNativeTarget "UniApp" */;
 			buildPhases = (
+				CC951E50FB2BD11B2FBBBF0D /* [CP] Check Pods Manifest.lock */,
 				F84A8A191EFAC26E00FA6F35 /* Sources */,
 				F84A8A1A1EFAC26E00FA6F35 /* Frameworks */,
 				F84A8A1B1EFAC26E00FA6F35 /* Resources */,
+				B8F138CF4455F2EFAA6FC15A /* [CP] Embed Pods Frameworks */,
+				BCEEF41B871CB4E204FB1400 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -131,6 +158,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B8F138CF4455F2EFAA6FC15A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UniApp/Pods-UniApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BCEEF41B871CB4E204FB1400 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UniApp/Pods-UniApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CC951E50FB2BD11B2FBBBF0D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F84A8A191EFAC26E00FA6F35 /* Sources */ = {
@@ -261,6 +336,7 @@
 		};
 		F84A8A301EFAC26E00FA6F35 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C5F7C7ED6D5B91B9082A9E69 /* Pods-UniApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = T439CWKBJV;
@@ -274,6 +350,7 @@
 		};
 		F84A8A311EFAC26E00FA6F35 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E921A7BA38C1646B7A194A2C /* Pods-UniApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = T439CWKBJV;

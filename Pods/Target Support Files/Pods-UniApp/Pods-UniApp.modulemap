@@ -1,0 +1,6 @@
+framework module Pods_UniApp {
+  umbrella header "Pods-UniApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
