@@ -13,6 +13,11 @@
 		F84A8A261EFAC26E00FA6F35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F84A8A241EFAC26E00FA6F35 /* Main.storyboard */; };
 		F84A8A281EFAC26E00FA6F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F84A8A271EFAC26E00FA6F35 /* Assets.xcassets */; };
 		F84A8A2B1EFAC26E00FA6F35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F84A8A291EFAC26E00FA6F35 /* LaunchScreen.storyboard */; };
+		F891E3661F00FF0D00CEAEC5 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F891E3651F00FF0D00CEAEC5 /* RegistrationViewController.swift */; };
+		F891E3691F010F4A00CEAEC5 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F891E3681F010F4A00CEAEC5 /* SettingsTableViewController.swift */; };
+		F8B241AB1F0393FC00775701 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B241AA1F0393FC00775701 /* NewsDetailViewController.swift */; };
+		F8B4B9BD1F0146C900936C7A /* News2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4B9BC1F0146C900936C7A /* News2ViewController.swift */; };
+		F8E7DECF1F01A0C600564B78 /* NewsRecipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E7DECE1F01A0C600564B78 /* NewsRecipeCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +31,11 @@
 		F84A8A271EFAC26E00FA6F35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F84A8A2A1EFAC26E00FA6F35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F84A8A2C1EFAC26E00FA6F35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F891E3651F00FF0D00CEAEC5 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		F891E3681F010F4A00CEAEC5 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		F8B241AA1F0393FC00775701 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
+		F8B4B9BC1F0146C900936C7A /* News2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News2ViewController.swift; sourceTree = "<group>"; };
+		F8E7DECE1F01A0C600564B78 /* NewsRecipeCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsRecipeCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +94,11 @@
 				F84A8A271EFAC26E00FA6F35 /* Assets.xcassets */,
 				F84A8A291EFAC26E00FA6F35 /* LaunchScreen.storyboard */,
 				F84A8A2C1EFAC26E00FA6F35 /* Info.plist */,
+				F891E3651F00FF0D00CEAEC5 /* RegistrationViewController.swift */,
+				F891E3681F010F4A00CEAEC5 /* SettingsTableViewController.swift */,
+				F8B4B9BC1F0146C900936C7A /* News2ViewController.swift */,
+				F8E7DECE1F01A0C600564B78 /* NewsRecipeCardView.swift */,
+				F8B241AA1F0393FC00775701 /* NewsDetailViewController.swift */,
 			);
 			path = UniApp;
 			sourceTree = "<group>";
@@ -124,6 +139,7 @@
 					F84A8A1C1EFAC26E00FA6F35 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = T439CWKBJV;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -212,8 +228,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F891E3691F010F4A00CEAEC5 /* SettingsTableViewController.swift in Sources */,
+				F891E3661F00FF0D00CEAEC5 /* RegistrationViewController.swift in Sources */,
 				F84A8A231EFAC26E00FA6F35 /* ViewController.swift in Sources */,
+				F8B241AB1F0393FC00775701 /* NewsDetailViewController.swift in Sources */,
 				F84A8A211EFAC26E00FA6F35 /* AppDelegate.swift in Sources */,
+				F8B4B9BD1F0146C900936C7A /* News2ViewController.swift in Sources */,
+				F8E7DECF1F01A0C600564B78 /* NewsRecipeCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +402,7 @@
 				F84A8A311EFAC26E00FA6F35 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
