@@ -11,17 +11,29 @@ import FacebookLogin
 import FacebookCore
 import FBSDKLoginKit
 
-class ViewController: UIViewController{
+class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento{
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("Access token \(AccessToken.current?.authenticationToken)")
+        
+        let prova = ChiamateAPI()
+        prova.delegate = self
+        prova.delegateCaricamento = self
+        prova.richiestaAutenticazionePOST(email: "prova", password: "", scelta: .SIGNUP)
+        prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .POSTS, pagina: 1)
+        
+        prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .TIMETABLE, pagina: 0)
+        
+        //print("Access token \(AccessToken.current?.authenticationToken)")
+        
         
         let facebookButton = LoginButton(readPermissions: [ .publicProfile ])
         facebookButton.center = view.center
@@ -81,6 +93,12 @@ class ViewController: UIViewController{
         self.present(detailVC, animated: true, completion: nil)*/
     }
     
+    func registra(access_token: String, id: String, errore: Bool, tipoErrore: String) {
+        print("risposta",access_token,id,errore,tipoErrore)
+    }
+    func finitoDiCaricare() {
+        print("finito di caricare")
+    }
 
 }
 

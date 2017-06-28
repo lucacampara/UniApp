@@ -21,30 +21,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="c9q-EX-GiR">
-                                <rect key="frame" x="72" y="223" width="230" height="286.5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="c9q-EX-GiR">
+                                <rect key="frame" x="87.5" y="200.5" width="200" height="266.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoConsorzio" translatesAutoresizingMaskIntoConstraints="NO" id="G7M-oV-2F5">
-                                        <rect key="frame" x="0.0" y="0.0" width="230" height="220"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="f4x-hO-ilV"/>
+                                            <constraint firstAttribute="width" constant="200" id="vFU-an-G7I"/>
+                                        </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="CHE-zx-ock">
-                                        <rect key="frame" x="0.0" y="220" width="230" height="66.5"/>
+                                        <rect key="frame" x="0.0" y="200" width="200" height="66.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONSORZIO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="jYX-iz-RpI">
-                                                <rect key="frame" x="0.0" y="0.0" width="230" height="25.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="25.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UNIVERSITARIO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WRb-Zd-Erk">
-                                                <rect key="frame" x="0.0" y="25.5" width="230" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="25.5" width="200" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DI PORDENONE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ilo-AH-TdA">
-                                                <rect key="frame" x="0.0" y="46" width="230" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="46" width="200" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -64,8 +67,8 @@
                         </subviews>
                         <color key="backgroundColor" red="0.67843137249999996" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="G7M-oV-2F5" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Jz1-Km-4rD"/>
-                            <constraint firstItem="G7M-oV-2F5" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="QiG-3X-gkZ"/>
+                            <constraint firstItem="c9q-EX-GiR" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="gqH-IF-cJF"/>
+                            <constraint firstItem="c9q-EX-GiR" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="vIz-lx-bFb"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
