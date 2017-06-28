@@ -10,38 +10,50 @@ import UIKit
 import FacebookLogin
 import FacebookCore
 import FBSDKLoginKit
+import MaterialComponents.MDCActivityIndicator
 
-class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento{
+class ViewController: UIViewController, chiamateAPIDelegate{
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var facebookButton: UIButton!
     
-    
+    var gestoreChiamate = ChiamateAPI()
+    var activityIndicator = MDCActivityIndicator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        let prova = ChiamateAPI()
-        prova.delegate = self
-        prova.delegateCaricamento = self
+        gestoreChiamate.delegate = self
+        /*prova.delegateCaricamento = self
         prova.richiestaAutenticazionePOST(email: "prova", password: "", scelta: .SIGNUP)
         prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .POSTS, pagina: 1)
         
-        prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .TIMETABLE, pagina: 0)
+        prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .TIMETABLE, pagina: 0)*/
         
         //print("Access token \(AccessToken.current?.authenticationToken)")
         
         
-        let facebookButton = LoginButton(readPermissions: [ .publicProfile ])
+        /*let facebookButton = LoginButton(readPermissions: [ .publicProfile ])
         facebookButton.center = view.center
         
-        view.addSubview(facebookButton)
+        view.addSubview(facebookButton)*/
         
+        let w = self.view.frame.size.width/2 - 60
+        let h = self.view.frame.size.height/2 - 60
+        activityIndicator = MDCActivityIndicator(frame: CGRect(x: w, y: h, width: 120, height: 120))
+        activityIndicator.cycleColors = [UIColor.white]
+        view.addSubview(activityIndicator)
 
         loginButton.layer.cornerRadius = 5
+        facebookButton.layer.cornerRadius = 5
+        
+        let imageFacebook = UIImageView(image: UIImage(named: "FacebookLogo"))
+        imageFacebook.frame = CGRect(x: 10, y: 10, width: 30, height: 30)
+        imageFacebook.contentMode = .scaleAspectFill
+        facebookButton.addSubview(imageFacebook)
 
         emailTextField.layer.borderWidth = 1
         emailTextField.layer.cornerRadius = 5
@@ -84,6 +96,12 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
     
     @IBAction func loginButton(_ sender: Any) {
         
+        if (emailTextField.text?.characters.count)! > 0 && (passwordTextField.text?.characters.count)! > 0 {
+            // Start animation
+            activityIndicator.startAnimating()
+            
+            gestoreChiamate.richiestaAutenticazionePOST(email: emailTextField.text!, password: passwordTextField.text!, scelta: .LOGIN)
+        }
         
        /* var detailVC = NewsDetailViewController()
         detailVC.productTitle = "Titolo 1"
@@ -94,6 +112,7 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
     }
     
     func registra(access_token: String, id: String, errore: Bool, tipoErrore: String) {
+        activityIndicator.stopAnimating()
         print("risposta",access_token,id,errore,tipoErrore)
     }
     func finitoDiCaricare() {

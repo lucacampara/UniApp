@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoConsorzio" translatesAutoresizingMaskIntoConstraints="NO" id="OnW-CI-MGG">
-                                <rect key="frame" x="137" y="48" width="100" height="100"/>
+                                <rect key="frame" x="137.5" y="48" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="OnW-CI-MGG" secondAttribute="height" multiplier="1:1" id="dIH-cp-V2u"/>
                                     <constraint firstAttribute="width" constant="100" id="za6-70-Q8X"/>
@@ -37,13 +37,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accedi o registrati" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fc-1p-2Sv">
-                                <rect key="frame" x="118" y="206" width="139" height="21"/>
+                                <rect key="frame" x="118" y="206" width="139" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vb1-t9-NSq">
-                                <rect key="frame" x="74.5" y="266" width="226" height="50"/>
+                                <rect key="frame" x="74.5" y="265.5" width="226" height="50"/>
                                 <color key="backgroundColor" red="0.67843137249999996" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -54,7 +54,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="H7t-HH-88g">
-                                <rect key="frame" x="75" y="341" width="226" height="50"/>
+                                <rect key="frame" x="74.5" y="340.5" width="226" height="50"/>
                                 <color key="backgroundColor" red="0.67843137249999996" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -62,7 +62,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2zM-7Y-A66">
-                                <rect key="frame" x="75" y="435.5" width="226" height="50"/>
+                                <rect key="frame" x="74.5" y="435" width="226" height="50"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Login">
@@ -70,11 +70,10 @@
                                 </state>
                                 <connections>
                                     <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tf1-VT-7eT"/>
-                                    <segue destination="GJY-XW-2dO" kind="show" id="NYM-1m-K2G"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hCP-xU-ILg">
-                                <rect key="frame" x="153" y="615" width="69" height="32"/>
+                                <rect key="frame" x="153" y="614.5" width="69" height="32.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Registrati">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -84,13 +83,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aDX-cP-Jeh">
-                                <rect key="frame" x="75" y="540" width="226" height="50"/>
+                                <rect key="frame" x="74.5" y="539.5" width="226" height="50"/>
                                 <color key="backgroundColor" red="0.23137254901960785" green="0.34901960784313724" blue="0.59607843137254901" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="226" id="HuN-tU-5Wl"/>
                                     <constraint firstAttribute="height" constant="50" id="WEi-X6-83V"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="Log in with Facebook">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -100,7 +100,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="oppure" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="01s-sG-VAS">
-                                <rect key="frame" x="168" y="505.5" width="40" height="14.5"/>
+                                <rect key="frame" x="167.5" y="505" width="40" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -120,6 +120,7 @@
                             <constraint firstItem="2zM-7Y-A66" firstAttribute="width" secondItem="aDX-cP-Jeh" secondAttribute="width" id="SlA-Tk-0hb"/>
                             <constraint firstItem="hCP-xU-ILg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="VqI-e6-tez"/>
                             <constraint firstItem="OnW-CI-MGG" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="28" id="Zio-Ok-pF3"/>
+                            <constraint firstItem="2zM-7Y-A66" firstAttribute="top" relation="lessThanOrEqual" secondItem="H7t-HH-88g" secondAttribute="bottom" constant="44.5" id="dom-NT-AhL"/>
                             <constraint firstItem="IQK-qx-iRH" firstAttribute="top" secondItem="OnW-CI-MGG" secondAttribute="bottom" constant="20" id="g9b-B0-zpf"/>
                             <constraint firstItem="01s-sG-VAS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hIR-dY-1Oc"/>
                             <constraint firstItem="OnW-CI-MGG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="j33-8H-fd3"/>
@@ -136,9 +137,11 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="emailTextField" destination="vb1-t9-NSq" id="wG4-Cm-Qku"/>
+                        <outlet property="facebookButton" destination="aDX-cP-Jeh" id="GZ8-f3-S11"/>
                         <outlet property="loginButton" destination="2zM-7Y-A66" id="iSs-GE-mP3"/>
                         <outlet property="passwordTextField" destination="H7t-HH-88g" id="aJ5-TN-hah"/>
                         <outlet property="signupButton" destination="hCP-xU-ILg" id="opm-7O-yXg"/>
+                        <segue destination="GJY-XW-2dO" kind="show" identifier="tabBar" id="2ec-sU-bGD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -158,7 +161,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoConsorzio" translatesAutoresizingMaskIntoConstraints="NO" id="bdk-Dy-Rju">
-                                <rect key="frame" x="137" y="48" width="100" height="100"/>
+                                <rect key="frame" x="137.5" y="48" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="Bd8-4y-Nu6"/>
                                     <constraint firstAttribute="width" secondItem="bdk-Dy-Rju" secondAttribute="height" multiplier="1:1" id="xZX-HE-4ZY"/>
@@ -182,7 +185,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d76-Jc-7WW">
-                                <rect key="frame" x="74" y="308" width="226" height="50"/>
+                                <rect key="frame" x="74.5" y="308" width="226" height="50"/>
                                 <color key="backgroundColor" red="0.67843137249999996" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -193,7 +196,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ifu-45-d7O">
-                                <rect key="frame" x="75" y="373" width="226" height="50"/>
+                                <rect key="frame" x="74.5" y="373" width="226" height="50"/>
                                 <color key="backgroundColor" red="0.67843137249999996" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -213,6 +216,9 @@
                                 <state key="normal" title="Registrati">
                                     <color key="titleColor" red="0.67843137249999996" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="registrationButton:" destination="9A6-JS-tsk" eventType="touchUpInside" id="LaI-SI-fLZ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mPc-bG-nrm">
                                 <rect key="frame" x="160.5" y="615" width="54" height="32"/>
