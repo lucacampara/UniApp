@@ -9,7 +9,11 @@
 import UIKit
 
 protocol chiamateAPIDelegate: class {
-    func registra(access_token:String, id: String)
+    func registra(access_token:String, id: String, errore: Bool, tipoErrore: String)
+}
+
+protocol controllaCaricamento: class {
+    func finitoDiCaricare()
 }
 
 enum RichiestaPOST {
@@ -30,6 +34,7 @@ enum RichiestaGET {
 class ChiamateAPI: NSObject {
     
     weak var delegate:chiamateAPIDelegate?
+    weak var delegateCaricamento:controllaCaricamento?
 
     
     func richiestaAutenticazionePOST(email: String, password: String, scelta: RichiestaPOST) {
@@ -91,7 +96,7 @@ class ChiamateAPI: NSObject {
                         
                         //print("prova print",access_token, id)
                         
-                        self.delegate?.registra(access_token: "ERRORE", id: errorMessage)
+                        self.delegate?.registra(access_token: "ERRORE", id: "", errore: true, tipoErrore: errorMessage)
                     }
                 }
                 
@@ -103,7 +108,7 @@ class ChiamateAPI: NSObject {
                     
                     //print("prova print",access_token, id)
                     
-                    self.delegate?.registra(access_token: access_token, id: id)
+                    self.delegate?.registra(access_token: access_token, id: id, errore: false, tipoErrore: "")
                 }
                 
                 
@@ -266,11 +271,12 @@ class ChiamateAPI: NSObject {
                             //print("dictionary",myDictionraryPost)
                             //print("")
                         }
+                        self.delegateCaricamento?.finitoDiCaricare()
                     }
                 } catch {
                     print("Error deserializing JSON: \(error)")
                 }
-                //print(posts)
+                print(posts)
                 }
                 
                 if (scelta == .TIMETABLE || scelta == .TIMETABLE_ITS || scelta == .TIMETABLE_UNITS || scelta == .TIMETABLE_UNIUD || scelta == .TIMETABLE_ISIA) {
@@ -316,7 +322,7 @@ class ChiamateAPI: NSObject {
                                 print("dictionary",myDictionraryTimetable)
                                 print("")
                             }
-                            
+                            self.delegateCaricamento?.finitoDiCaricare()
                         }
                     } catch {
                         print("Error deserializing JSON: \(error)")
