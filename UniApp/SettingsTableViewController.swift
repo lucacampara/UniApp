@@ -7,19 +7,39 @@
 //
 
 import UIKit
+import ActionSheetPicker_3_0
 
 class SettingsTableViewController: UITableViewController {
-
+    
+    var minutesArray: Array<Int> = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.delegate = self
+        
+        initArray()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    func initArray() {
+        minutesArray.append(1)
+        minutesArray.append(2)
+        minutesArray.append(3)
+        minutesArray.append(4)
+        minutesArray.append(5)
+        minutesArray.append(10)
+        minutesArray.append(15)
+        minutesArray.append(20)
+        minutesArray.append(30)
+        minutesArray.append(60)
+        minutesArray.append(120)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -29,14 +49,30 @@ class SettingsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 2
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        print("did select \(indexPath.row)")
+        if  indexPath.row == 1 {
+            let action = ActionSheetStringPicker(title: "Seleziona i minuti", rows: [minutesArray], initialSelection: 5, doneBlock: {
+                picker, index, values in
+                
+                return
+            }, cancel:{
+                ActionSheetStringPicker in return
+            }, origin: nil)
+                
+            action?.tapDismissAction = TapAction.cancel
+            action?.show()
+        }
+    }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
@@ -91,5 +127,22 @@ class SettingsTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func notificationMinutes(_ sender: Any) {
+        let action = ActionSheetStringPicker(title: "Seleziona i minuti", rows: minutesArray, initialSelection: 0, doneBlock: {
+            picker, index, values in
+            
+            return
+        }, cancel:{
+            ActionSheetStringPicker in return
+        }, origin: sender)
+        
+        action?.tapDismissAction = TapAction.cancel
+        action?.show()
+    }
+    
+    @IBAction func doneButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
 
 }
