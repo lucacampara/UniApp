@@ -1,4 +1,23 @@
 PODS:
+  - ActionSheetPicker-3.0 (2.2.0)
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.8.4)
+  - FacebookCore (0.2.0):
+    - Bolts (~> 1.8)
+    - FBSDKCoreKit (~> 4.15)
+  - FacebookLogin (0.2.0):
+    - Bolts (~> 1.8)
+    - FacebookCore (~> 0.2)
+    - FBSDKCoreKit (~> 4.15)
+    - FBSDKLoginKit (~> 4.15)
+  - FBSDKCoreKit (4.22.1):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.22.1):
+    - FBSDKCoreKit
   - MaterialComponents (23.2.0):
     - MaterialComponents/ActivityIndicator (= 23.2.0)
     - MaterialComponents/AnimationTiming (= 23.2.0)
@@ -165,17 +184,31 @@ PODS:
   - Realm/Headers (2.7.0)
   - RealmSwift (2.7.0):
     - Realm (= 2.7.0)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
 
 DEPENDENCIES:
+  - ActionSheetPicker-3.0 (~> 2.2.0)
+  - FacebookCore
+  - FacebookLogin
   - MaterialComponents
   - RealmSwift
+  - SDWebImage (~> 3.8)
 
 SPEC CHECKSUMS:
+  ActionSheetPicker-3.0: d11a4c12c6aaf704b8a3f56d179198c99f3e41e6
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  FacebookCore: 2cb3f0fbff218e9d3119cec84bae983b232412de
+  FacebookLogin: c9d606504735780a9e3002465a615512e0a691a5
+  FBSDKCoreKit: 9c2daf0162214d6d2e21cf8208a9c6c2a2e42b9c
+  FBSDKLoginKit: 00cf28916b9f0169763a3d61985d745b579fe304
   MaterialComponents: 42e94262fa87a7ecadd3452ea09910c1254dc55a
   MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
   Realm: 07e5d3a9e0e41d65fd5f9f05150ed6295d0f093b
   RealmSwift: 6d06425d3900c86473c4f323bf6949b43fca22bc
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: 7ad4832610cc281d32ba1f4bd35660758963369f
+PODFILE CHECKSUM: 777b9289923f4f828a68957bbf67a2cd9373a5d4
 
 COCOAPODS: 1.2.0
