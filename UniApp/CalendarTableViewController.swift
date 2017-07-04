@@ -43,7 +43,7 @@ class CalendarTableViewController: UITableViewController {
         let menuButton = UIBarButtonItem(image: icon, style: .done, target: self, action: #selector(openSettings))
         self.navigationItem.rightBarButtonItem = menuButton;
         
-        title = "Calendario"
+        title = "Lezioni"
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 50;
