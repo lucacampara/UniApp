@@ -14,6 +14,7 @@ import MaterialComponents.MDCActivityIndicator
 
 class ViewController: UIViewController, chiamateAPIDelegate{
     
+    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
@@ -101,6 +102,8 @@ class ViewController: UIViewController, chiamateAPIDelegate{
             activityIndicator.startAnimating()
             
             gestoreChiamate.richiestaAutenticazionePOST(email: emailTextField.text!, password: passwordTextField.text!, scelta: .LOGIN)
+        } else {
+            messageLabel.text = "Inserisci tutti i campi"
         }
         
        /* var detailVC = NewsDetailViewController()
@@ -113,7 +116,11 @@ class ViewController: UIViewController, chiamateAPIDelegate{
     
     func registra(access_token: String, id: String, errore: Bool, tipoErrore: String) {
         activityIndicator.stopAnimating()
-        print("risposta",access_token,id,errore,tipoErrore)
+        print("risp ",access_token,id,errore,tipoErrore)
+        
+        if errore == true {
+            messageLabel.text = tipoErrore
+        }
     }
     func finitoDiCaricare() {
         print("finito di caricare")
