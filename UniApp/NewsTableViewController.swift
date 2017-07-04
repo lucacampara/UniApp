@@ -17,9 +17,10 @@ class cellOfNews: UITableViewCell{
     @IBOutlet weak var viewCard: UIView!
 }
 
-var newsList = [NewsRealm]()
-
 class NewsTableViewController: UITableViewController {
+    
+    var test = DatabaseRealm()
+    var newsList = [NewsRealm]()
     
     let appBar = MDCAppBar()
     
@@ -29,6 +30,9 @@ class NewsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        newsList = test.ritornaArrayNews()
+        print(newsList.count)
         
         addChildViewController(appBar.headerViewController)
         appBar.headerViewController.headerView.backgroundColor = UIColor(red: 0.6784313725490196, green: 0.1333333333333333333333, blue: 0.1333333333333333333333, alpha: 1.0)
@@ -44,6 +48,8 @@ class NewsTableViewController: UITableViewController {
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 50;
+        
+        self.tableView.reloadData()
 
     }
     

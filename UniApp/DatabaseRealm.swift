@@ -10,11 +10,11 @@ import UIKit
 import RealmSwift
 class DatabaseRealm: NSObject {
 
-    func ritornaArrayNews() ->Array<Any> {
+    func ritornaArrayNews() -> Array<NewsRealm> {
         var news = [NewsRealm]()
         do {
             let realm = try Realm()
-            news = realm.objects(NewsRealm).toArray()
+            news = Array(realm.objects(NewsRealm.self))
             //print(news)
             
             
