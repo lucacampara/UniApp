@@ -25,6 +25,7 @@ class NewsRealm: Object {
     dynamic var pub_date = ""
     dynamic var v = ""
     
+    dynamic var dataNews = ""
     
     override static func primaryKey() -> String? {
         return "id"

@@ -20,6 +20,11 @@ class OrarioRealm: Object {
     dynamic var course = ""
     dynamic var area = ""
     
+    dynamic var dataLezione = ""
+    dynamic var oraInizioLezione = ""
+    dynamic var oraFineLezione = ""
+    
+    
     override static func primaryKey() -> String? {
         return "class_id"
     }

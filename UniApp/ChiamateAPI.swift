@@ -41,6 +41,23 @@ class ChiamateAPI: NSObject {
     func richiestaAutenticazionePOST(email: String, password: String, scelta: RichiestaPOST) {
         print("prova")
         
+        
+        
+        let string = "2017-01-27T01:36:36.222Z"
+        
+        let dateFormatter = DateFormatter()
+        let tempLocale = dateFormatter.locale // save locale temporarily
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let date = dateFormatter.date(from: string)!
+        dateFormatter.dateFormat = "dd MMMM yyyy HH:mm:ss.SSS"
+        dateFormatter.locale = tempLocale // reset the locale
+        let dateString = dateFormatter.string(from: date)
+        print("EXACT_DATE : \(dateString)")
+        
+        
         var access_token = ""
         var id = ""
         var errorMessage = ""
@@ -256,7 +273,7 @@ class ChiamateAPI: NSObject {
                             news.media = myDictionraryPost["media"]!
                             news.pub_date = myDictionraryPost["pub_date"]!
                             news.v = myDictionraryPost["__v"]!
-                            
+                            news.dataNews = self.convertiDataOraNews(dataora: news.pub_date)
                             
                             
                             // Get the default Realm
@@ -330,6 +347,7 @@ class ChiamateAPI: NSObject {
                                         orario.course = myDictionraryTimetable["course"]!
                                         orario.area = myDictionraryTimetable["area"]!
                                         
+                                        (orario.dataLezione, orario.oraInizioLezione, orario.oraFineLezione) = self.convertiDataOraLezioni(data: orario.date, oraInizio: orario.time_start, oraFine: orario.time_end)
                                         
                                         
                                         // Get the default Realm
@@ -371,5 +389,63 @@ class ChiamateAPI: NSObject {
             print("Error")
         }
 
+    }
+    
+    func convertiDataOraNews(dataora: String)->String {
+        let dateFormatter = DateFormatter()
+        
+        
+        let tempLocale = dateFormatter.locale // save locale temporarily
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        let date = dateFormatter.date(from: dataora)!
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        dateFormatter.locale = tempLocale // reset the locale
+        let dateString = dateFormatter.string(from: date)
+        print("EXACT_DATE : \(dateString)")
+    
+        
+        return dateString
+    }
+    func convertiDataOraLezioni(data: String, oraInizio: String, oraFine: String)->(String, String, String) {
+        let dateFormatter = DateFormatter()
+        let timeFormatterInizio = DateFormatter()
+        let timeFormatterFine = DateFormatter()
+        
+        let tempLocale = dateFormatter.locale // save locale temporarily
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let date = dateFormatter.date(from: data)!
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        dateFormatter.locale = tempLocale // reset the locale
+        let dateString = dateFormatter.string(from: date)
+        print("EXACT_DATE : \(dateString)")
+        
+        timeFormatterInizio.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        timeFormatterInizio.calendar = Calendar(identifier: .iso8601)
+        timeFormatterInizio.timeZone = TimeZone(secondsFromGMT: 0)
+        timeFormatterInizio.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let timeInizio = timeFormatterInizio.date(from: oraInizio)!
+        timeFormatterInizio.dateFormat = "HH:mm"
+        timeFormatterInizio.locale = tempLocale // reset the locale
+        let timeStringInizio = timeFormatterInizio.string(from: timeInizio)
+        print("EXACT_DATE : \(timeStringInizio)")
+        
+        
+        timeFormatterFine.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        timeFormatterFine.calendar = Calendar(identifier: .iso8601)
+        timeFormatterFine.timeZone = TimeZone(secondsFromGMT: 0)
+        timeFormatterFine.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let timeFine = timeFormatterFine.date(from: oraFine)!
+        timeFormatterFine.dateFormat = "HH:mm"
+        timeFormatterFine.locale = tempLocale // reset the locale
+        let timeStringFine = timeFormatterFine.string(from: timeFine)
+        print("EXACT_DATE : \(timeStringFine)")
+        
+        return (dateString, timeStringInizio, timeStringFine)
     }
 }
