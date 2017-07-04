@@ -619,7 +619,7 @@
                                     <outlet property="labelData" destination="khO-HW-PO6" id="Tca-aR-gXj"/>
                                     <outlet property="labelTitle" destination="N8T-nN-x4y" id="bpK-It-Rnn"/>
                                     <outlet property="viewCard" destination="eZB-iz-z9A" id="0th-mk-RRX"/>
-                                    <segue destination="SwV-wE-Li1" kind="show" id="bbK-iq-DSr"/>
+                                    <segue destination="SwV-wE-Li1" kind="show" identifier="showDetail" id="bbK-iq-DSr"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
