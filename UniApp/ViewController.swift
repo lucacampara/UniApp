@@ -12,40 +12,33 @@ import FacebookCore
 import FBSDKLoginKit
 import MaterialComponents.MDCActivityIndicator
 
-class ViewController: UIViewController, chiamateAPIDelegate{
+class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento{
     
+    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
     
-    var gestoreChiamate = ChiamateAPI()
-    var activityIndicator = MDCActivityIndicator()
-
+    let activityIndicator = MDCActivityIndicator(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+    let gestoreChiamate = ChiamateAPI()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        gestoreChiamate.delegate = self
-        /*prova.delegateCaricamento = self
-        prova.richiestaAutenticazionePOST(email: "prova", password: "", scelta: .SIGNUP)
+        view.addSubview(activityIndicator)
+        
+        let prova = ChiamateAPI()
+        prova.delegate = self
+        prova.delegateCaricamento = self
+        prova.richiestaAutenticazionePOST(email: "jdfdsfds@sdfaf.it", password: "password", scelta: .SIGNUP)
         prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .POSTS, pagina: 1)
         
-        prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .TIMETABLE, pagina: 0)*/
+        prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .TIMETABLE, pagina: 0)
         
         //print("Access token \(AccessToken.current?.authenticationToken)")
         
-        
-        /*let facebookButton = LoginButton(readPermissions: [ .publicProfile ])
-        facebookButton.center = view.center
-        
-        view.addSubview(facebookButton)*/
-        
-        let w = self.view.frame.size.width/2 - 60
-        let h = self.view.frame.size.height/2 - 60
-        activityIndicator = MDCActivityIndicator(frame: CGRect(x: w, y: h, width: 120, height: 120))
-        activityIndicator.cycleColors = [UIColor.white]
-        view.addSubview(activityIndicator)
 
         loginButton.layer.cornerRadius = 5
         facebookButton.layer.cornerRadius = 5
@@ -96,11 +89,14 @@ class ViewController: UIViewController, chiamateAPIDelegate{
     
     @IBAction func loginButton(_ sender: Any) {
         
+
         if (emailTextField.text?.characters.count)! > 0 && (passwordTextField.text?.characters.count)! > 0 {
             // Start animation
             activityIndicator.startAnimating()
             
             gestoreChiamate.richiestaAutenticazionePOST(email: emailTextField.text!, password: passwordTextField.text!, scelta: .LOGIN)
+        } else {
+            messageLabel.text = "Inserisci tutti i campi"
         }
         
        /* var detailVC = NewsDetailViewController()
@@ -113,6 +109,11 @@ class ViewController: UIViewController, chiamateAPIDelegate{
     
     func registra(access_token: String, id: String, errore: Bool, tipoErrore: String) {
         activityIndicator.stopAnimating()
+        print("risp ",access_token,id,errore,tipoErrore)
+        
+        if errore == true {
+            messageLabel.text = tipoErrore
+        }
         print("risposta",access_token,id,errore,tipoErrore)
     }
     func finitoDiCaricare() {
