@@ -88,6 +88,8 @@ class ViewController: UIViewController, chiamateAPIDelegate {
     
     @IBAction func facebookLoginButton(_ sender: Any) {
         
+        activityIndicator.startAnimating()
+        
         var loginManager = LoginManager()
         loginManager.logIn([.publicProfile], viewController: self) { loginResult in
             switch loginResult {
@@ -99,6 +101,7 @@ class ViewController: UIViewController, chiamateAPIDelegate {
                 print("Logged in! \(accessToken.authenticationToken)")
                 
                 // facebook chiamata
+                self.gestoreChiamate.richiestaTokenAFacebook(tokenDiFacebook: accessToken.authenticationToken)
             }
         }
     }
@@ -110,7 +113,6 @@ class ViewController: UIViewController, chiamateAPIDelegate {
     }
     
     @IBAction func loginButton(_ sender: Any) {
-        
 
         if (emailTextField.text?.characters.count)! > 0 && (passwordTextField.text?.characters.count)! > 0 {
             // Start animation
