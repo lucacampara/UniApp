@@ -46,7 +46,7 @@ class ChiamateAPI: NSObject {
     func richiestaTokenAFacebook(tokenDiFacebook: String) {
         
         let url = NSURL(string: "http://apiunipn.parol.in/V1/user/facebook/login")!
-        let facebookToken = ["access_toekn":tokenDiFacebook]
+        let facebookToken = ["access_token":tokenDiFacebook]
         
         var access_token = ""
         var id = ""
@@ -85,11 +85,8 @@ class ChiamateAPI: NSObject {
                         if (httpResponse.statusCode != 200) {
                             print(responseJSON)
                             
-                            errorMessage = (responseJSON["error"] ?? "errore") as! String
-                            
-                            print("prova print",access_token, id)
-                            
-                            self.delegate?.registra(access_token: "ERRORE", id: "", errore: true, tipoErrore: errorMessage)
+                                                        
+                            self.delegate?.registra(access_token: "ERRORE", id: "", errore: true, tipoErrore: "token facebook non valido")
                         } else {
                             print(responseJSON)
                             access_token = (responseJSON["access_token"] ?? "errore") as! String
