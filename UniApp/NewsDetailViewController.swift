@@ -19,7 +19,7 @@ class NewsDetailViewController: UIViewController {
     @IBOutlet weak var newsDate: UILabel!
     @IBOutlet weak var newsImage: UIImageView!
     
-
+    var news = NewsRealm()
     
     override func viewDidLoad() {
         
