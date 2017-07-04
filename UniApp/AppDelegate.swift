@@ -26,7 +26,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, controllaValiditaToken {
             print("c'è token")
             gestoreChiamte.controllaValiditaToken(access_token: token!)
         } else {
+            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let loginViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as UIViewController
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = loginViewController
+            self.window?.makeKeyAndVisible()
+        
             print("no token")
+            /*let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let loginViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as UIViewController
+            
+            let rootViewController = self.window!.rootViewController as! UINavigationController;
+            rootViewController.pushViewController(viewController, animated: true);
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = loginViewController
+            self.window?.makeKeyAndVisible()*/
         }
 
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -36,11 +50,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, controllaValiditaToken {
     func validitaToken(validita: Bool) {
         print("VALIDITA ", validita)
         if !validita {
-            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let loginViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as UIViewController
-            self.window = UIWindow(frame: UIScreen.main.bounds)
-            self.window?.rootViewController = loginViewController
-            self.window?.makeKeyAndVisible()
+            self.window?
+                .rootViewController!
+                .performSegue(withIdentifier: "showLogin", sender: nil)
+            
         }
     }
     

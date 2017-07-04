@@ -21,7 +21,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoConsorzio" translatesAutoresizingMaskIntoConstraints="NO" id="OnW-CI-MGG">
@@ -63,7 +63,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2zM-7Y-A66">
-                                <rect key="frame" x="74.5" y="435" width="226" height="50"/>
+                                <rect key="frame" x="74.5" y="386.5" width="226" height="50"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Login">
@@ -74,7 +74,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hCP-xU-ILg">
-                                <rect key="frame" x="153" y="614.5" width="69" height="32.5"/>
+                                <rect key="frame" x="153" y="566" width="69" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Registrati">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -84,7 +84,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aDX-cP-Jeh">
-                                <rect key="frame" x="74.5" y="539.5" width="226" height="50"/>
+                                <rect key="frame" x="74.5" y="491" width="226" height="50"/>
                                 <color key="backgroundColor" red="0.23137254901960785" green="0.34901960784313724" blue="0.59607843137254901" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="226" id="HuN-tU-5Wl"/>
@@ -100,7 +100,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="oppure" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="01s-sG-VAS">
-                                <rect key="frame" x="167.5" y="505" width="40" height="14.5"/>
+                                <rect key="frame" x="167.5" y="456.5" width="40" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -525,7 +525,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="IaA-Le-Pd0">
             <objects>
-                <tabBarController id="GJY-XW-2dO" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="homeController" id="GJY-XW-2dO" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="AZX-ex-Cac">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -537,6 +537,7 @@
                     <connections>
                         <segue destination="8kt-sB-jCg" kind="relationship" relationship="viewControllers" id="7Bs-nw-XrH"/>
                         <segue destination="lcY-vh-nk7" kind="relationship" relationship="viewControllers" id="HI0-fE-VDA"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="showLogin" id="jTa-kd-vWh"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxc-8m-Zff" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -767,7 +768,7 @@
         <image name="NewsFilled" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AGa-rQ-b9k"/>
+        <segue reference="2LT-Ka-seC"/>
         <segue reference="wCL-TE-rbH"/>
     </inferredMetricsTieBreakers>
 </document>
