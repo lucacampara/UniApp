@@ -28,7 +28,13 @@ class ViewController: UIViewController, chiamateAPIDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        /*
+        let prova = DatabaseRealm()
+        var test = prova.ritornaArrayNews()
+        var test1 = prova.ritornaArrayOrari()
+        print(test,test1)
+        */
         view.addSubview(activityIndicator)
         
         gestoreChiamate.delegate = self
