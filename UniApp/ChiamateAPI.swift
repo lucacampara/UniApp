@@ -220,9 +220,9 @@ class ChiamateAPI: NSObject {
                             myDictionraryPost["slug"] = campo["slug"] as? String
                             myDictionraryPost["status"] = campo["status"] as? String
                             myDictionraryPost["link"] = campo["link"] as? String
-                            myDictionraryPost["title"] = campo["title"] as? String
-                            myDictionraryPost["content"] = campo["content"] as? String
-                            myDictionraryPost["excerpt"] = campo["excerpt"] as? String
+                            myDictionraryPost["title"] = String(htmlEncodedString: campo["title"] as! String)
+                            myDictionraryPost["content"] = String(htmlEncodedString: campo["content"] as! String)
+                            myDictionraryPost["excerpt"] = String(htmlEncodedString: campo["excerpt"] as! String)
                             //myDictionraryPost["sticky"] = campo["sticky"] as? String
                             myDictionraryPost["media"] = campo["media"] as? String
                             myDictionraryPost["pub_date"] = campo["pub_date"] as? String
@@ -311,16 +311,46 @@ class ChiamateAPI: NSObject {
                                     myDictionraryTimetable["time_end"] = p["time_end"] as? String
                                     myDictionraryTimetable["course"] = p["course"] as? String
                                     myDictionraryTimetable["type"] = p["type"] as? String
-                                    myDictionraryTimetable["pub_date"] = p["pub_date"] as? String
+                                    //myDictionraryTimetable["pub_date"] = p["pub_date"] as? String
                                     
                                     let area = p["area"] as? Int;
                                     let areaString: String = String(area!);
                                     myDictionraryTimetable["area"] = areaString
+                                    
+                                    
+                                    if (myDictionraryTimetable["class_id"] != nil){
+                                        let orario = OrarioRealm()
+                                        orario.class_id = myDictionraryTimetable["class_id"]!
+                                        orario.name = myDictionraryTimetable["name"]!
+                                        orario.prof = myDictionraryTimetable["prof"]!
+                                        orario.classe = myDictionraryTimetable["class"]!
+                                        orario.date = myDictionraryTimetable["date"]!
+                                        orario.time_start = myDictionraryTimetable["time_start"]!
+                                        orario.time_end = myDictionraryTimetable["time_end"]!
+                                        orario.course = myDictionraryTimetable["course"]!
+                                        orario.area = myDictionraryTimetable["area"]!
+                                        
+                                        
+                                        
+                                        // Get the default Realm
+                                        let realm = try! Realm()
+                                        // You only need to do this once (per thread)
+                                        
+                                        // Add to the Realm inside a transaction
+                                        try! realm.write {
+                                            realm.add(orario, update: true)
+                                        }
+                                    }
+
+                                    
+                                    
                                 }
                                 print (myDictionraryTimetable)
                                 timetable.append(myDictionraryTimetable)
                                 print("dictionary",myDictionraryTimetable)
                                 print("")
+                                
+                                
                             }
                             self.delegateCaricamento?.finitoDiCaricare()
                         }
