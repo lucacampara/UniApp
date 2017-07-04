@@ -241,7 +241,7 @@ class ChiamateAPI: NSObject {
                             posts.append(myDictionraryPost)
                             //print("dictionary",myDictionraryPost)
                             //print("")
-                            /*
+                            
                             let news = NewsRealm()
                             news.id = myDictionraryPost["_id"]!
                             news.createdAt = myDictionraryPost["createdAt"]!
@@ -269,7 +269,6 @@ class ChiamateAPI: NSObject {
                             }
                             
                             print("Database: \(news)")
-                            */
                         }
                         
                         self.delegateCaricamento?.finitoDiCaricare()
