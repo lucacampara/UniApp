@@ -19,6 +19,7 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var facebookButton: UIButton!
     
     let activityIndicator = MDCActivityIndicator(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
     let gestoreChiamate = ChiamateAPI()
@@ -38,14 +39,14 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
         
         //print("Access token \(AccessToken.current?.authenticationToken)")
         
-        
-        let facebookButton = LoginButton(readPermissions: [ .publicProfile ])
-        facebookButton.center = view.center
-        
-        view.addSubview(facebookButton)
-        
 
         loginButton.layer.cornerRadius = 5
+        facebookButton.layer.cornerRadius = 5
+        
+        let imageFacebook = UIImageView(image: UIImage(named: "FacebookLogo"))
+        imageFacebook.frame = CGRect(x: 10, y: 10, width: 30, height: 30)
+        imageFacebook.contentMode = .scaleAspectFill
+        facebookButton.addSubview(imageFacebook)
 
         emailTextField.layer.borderWidth = 1
         emailTextField.layer.cornerRadius = 5

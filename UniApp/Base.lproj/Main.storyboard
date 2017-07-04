@@ -139,7 +139,7 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="emailTextField" destination="vb1-t9-NSq" id="wG4-Cm-Qku"/>
-                        <outlet property="facebookButton" destination="aDX-cP-Jeh" id="GZ8-f3-S11"/>
+                        <outlet property="facebookButton" destination="aDX-cP-Jeh" id="e0o-ja-nJE"/>
                         <outlet property="loginButton" destination="2zM-7Y-A66" id="iSs-GE-mP3"/>
                         <outlet property="messageLabel" destination="5fc-1p-2Sv" id="5aC-2H-Wgn"/>
                         <outlet property="passwordTextField" destination="H7t-HH-88g" id="aJ5-TN-hah"/>
