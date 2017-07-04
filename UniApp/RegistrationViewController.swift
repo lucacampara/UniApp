@@ -129,5 +129,9 @@ class RegistrationViewController: UIViewController, chiamateAPIDelegate {
             self.performSegue(withIdentifier: "showHome", sender: self)
         }
     }
+    
+    func validitaToken(validita: Bool) {
+        print(validita)
+    }
 
 }
