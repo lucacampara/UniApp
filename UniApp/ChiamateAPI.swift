@@ -85,7 +85,7 @@ class ChiamateAPI: NSObject {
                         if (httpResponse.statusCode != 200) {
                             print(responseJSON)
                             
-                                                        
+                            
                             self.delegate?.registra(access_token: "ERRORE", id: "", errore: true, tipoErrore: "token facebook non valido")
                         } else {
                             print(responseJSON)
@@ -451,11 +451,11 @@ class ChiamateAPI: NSObject {
     
     func controllaValiditaToken(access_token: String) {
         
-        var checkError = false;
+        var validita = true;
         
         let session = URLSession.shared
         
-        let url = NSURL(string: "http://apiunipn.parol.in/V1/user/login")!
+        let url = NSURL(string: "http://apiunipn.parol.in/V1/timetable")!
         let request = NSMutableURLRequest(url: url as URL)
         
         do {
@@ -484,15 +484,15 @@ class ChiamateAPI: NSObject {
                 if let httpResponse = response as? HTTPURLResponse {
                     print("STATUS CODE",httpResponse.statusCode)
                     if (httpResponse.statusCode != 200) {
-                        checkError = true;
+                        validita = false;
                     }
                 }
+                self.delegateControlloToken?.validitaToken(validita: validita)
             })
-                task.resume()
+            task.resume()
             
         }
     
-        self.delegateControlloToken?.validitaToken(validita: checkError)
     }
     
 
