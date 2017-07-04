@@ -27,7 +27,7 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
         let prova = ChiamateAPI()
         prova.delegate = self
         prova.delegateCaricamento = self
-        prova.richiestaAutenticazionePOST(email: "prova", password: "", scelta: .SIGNUP)
+        prova.richiestaAutenticazionePOST(email: "jdfdsfds@sdfaf.it", password: "password", scelta: .SIGNUP)
         prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .POSTS, pagina: 1)
         
         prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .TIMETABLE, pagina: 0)
