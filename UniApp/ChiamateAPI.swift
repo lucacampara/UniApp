@@ -11,11 +11,15 @@ import RealmSwift
 
 protocol chiamateAPIDelegate: class {
     func registra(access_token:String, id: String, errore: Bool, tipoErrore: String)
-    func validitaToken(validita: Bool)
+    
 }
 
 protocol controllaCaricamento: class {
     func finitoDiCaricare()
+}
+
+protocol  controllaValiditaToken {
+    func validitaToken(validita: Bool)
 }
 
 enum RichiestaPOST {
@@ -37,26 +41,81 @@ class ChiamateAPI: NSObject {
     
     weak var delegate:chiamateAPIDelegate?
     weak var delegateCaricamento:controllaCaricamento?
+    var delegateControlloToken:controllaValiditaToken?
 
+    func richiestaTokenAFacebook(tokenDiFacebook: String) {
+        
+        let url = NSURL(string: "http://apiunipn.parol.in/V1/user/facebook/login")!
+        let facebookToken = ["access_toekn":tokenDiFacebook]
+        
+        var access_token = ""
+        var id = ""
+        var errorMessage = ""
+        
+        let session = URLSession.shared
+        
+        let request = NSMutableURLRequest(url: url as URL)
+        
+        do {
+            // JSON all the things
+            let auth = try JSONSerialization.data(withJSONObject: facebookToken, options: .prettyPrinted)
+            
+            // Set the request content type to JSON
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            // The magic...set the HTTP request method to POST
+            request.httpMethod = "POST"
+            
+            // Add the JSON serialized login data to the body
+            request.httpBody = auth
+            
+            // Create the task that will send our login request (asynchronously)
+            let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+                // Do something with the HTTP response
+                print("Got response \(String(describing: response)) with error \(String(describing: error))")
+                print("Done.")
+                
+                
+                if let httpResponse = response as? HTTPURLResponse {
+                    print("STATUS CODE",httpResponse.statusCode)
+                    
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        
+                        if (httpResponse.statusCode != 200) {
+                            print(responseJSON)
+                            
+                            errorMessage = (responseJSON["error"] ?? "errore") as! String
+                            
+                            print("prova print",access_token, id)
+                            
+                            self.delegate?.registra(access_token: "ERRORE", id: "", errore: true, tipoErrore: errorMessage)
+                        } else {
+                            print(responseJSON)
+                            access_token = (responseJSON["access_token"] ?? "errore") as! String
+                            id = (responseJSON["id"] ?? "errore") as! String
+                            
+                            print("prova print",access_token, id)
+                            
+                            self.delegate?.registra(access_token: access_token, id: id, errore: false, tipoErrore: "")
+                        }
+                    }
+                }
+                
+            })
+            
+            // Start the task on a background thread
+            task.resume()
+            
+        } catch {
+            // Handle your errors folks...
+            print("Error")
+        }
+
+    }
     
     func richiestaAutenticazionePOST(email: String, password: String, scelta: RichiestaPOST) {
         print("prova")
-        
-        
-        
-        let string = "2017-01-27T01:36:36.222Z"
-        
-        let dateFormatter = DateFormatter()
-        let tempLocale = dateFormatter.locale // save locale temporarily
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
-        dateFormatter.calendar = Calendar(identifier: .iso8601)
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date = dateFormatter.date(from: string)!
-        dateFormatter.dateFormat = "dd MMMM yyyy HH:mm:ss.SSS"
-        dateFormatter.locale = tempLocale // reset the locale
-        let dateString = dateFormatter.string(from: date)
-        print("EXACT_DATE : \(dateString)")
         
         
         var access_token = ""
@@ -436,8 +495,10 @@ class ChiamateAPI: NSObject {
             
         }
     
-        self.delegate?.validitaToken(validita: checkError)
+        self.delegateControlloToken?.validitaToken(validita: checkError)
     }
+    
+
     
     func convertiDataOraNews(dataora: String)->String {
         let dateFormatter = DateFormatter()
