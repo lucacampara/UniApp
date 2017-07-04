@@ -7,18 +7,28 @@
 //
 
 import UIKit
+import MaterialComponents.MDCActivityIndicator
 
-class RegistrationViewController: UIViewController {
+class RegistrationViewController: UIViewController, chiamateAPIDelegate {
     @IBOutlet weak var emailRegistrationTextField: UITextField!
     @IBOutlet weak var repeatPasswordRegistrationTextField: UITextField!
     @IBOutlet weak var passwordRegistrationTextField: UITextField!
     
     @IBOutlet weak var registrationButton: UIButton!
 
-    
+    var gestoreChiamate = ChiamateAPI()
+    var activityIndicator = MDCActivityIndicator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        gestoreChiamate.delegate = self
+        
+        let w = self.view.frame.size.width/2 - 60
+        let h = self.view.frame.size.height/2 - 60
+        activityIndicator = MDCActivityIndicator(frame: CGRect(x: w, y: h, width: 120, height: 120))
+        activityIndicator.cycleColors = [UIColor.white]
+        view.addSubview(activityIndicator)
         
         registrationButton.layer.cornerRadius = 5
 
@@ -62,11 +72,28 @@ class RegistrationViewController: UIViewController {
     // MARK: - ACTIONS
     
     @IBAction func registrationButton(_ sender: Any) {
+        
+        if (emailRegistrationTextField.text?.characters.count)! > 0 && (passwordRegistrationTextField.text?.characters.count)! > 0 && (repeatPasswordRegistrationTextField.text?.characters.count)! > 0 {
+            
+            if  passwordRegistrationTextField.text == repeatPasswordRegistrationTextField.text {
+                activityIndicator.startAnimating()
+                gestoreChiamate.richiestaAutenticazionePOST(email: emailRegistrationTextField.text!, password: passwordRegistrationTextField.text!, scelta: .SIGNUP)
+                print("ok password")
+            } else {
+                print("password failed")
+            }
+        }
     }
     
     @IBAction func cancelButton(_ sender: Any) {
         
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func registra(access_token: String, id: String, errore: Bool, tipoErrore: String) {
+        activityIndicator.stopAnimating()
+        print("risposta",access_token,id,errore,tipoErrore)
     }
 
 }
