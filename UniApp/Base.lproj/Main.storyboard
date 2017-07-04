@@ -71,7 +71,7 @@
                                 </state>
                                 <connections>
                                     <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tf1-VT-7eT"/>
-                                    <segue destination="GJY-XW-2dO" kind="show" id="xvs-cw-wui"/>
+                                    <segue destination="GJY-XW-2dO" kind="show" id="9Ja-aM-b1e"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hCP-xU-ILg">
@@ -98,7 +98,6 @@
                                 </state>
                                 <connections>
                                     <action selector="facebookLoginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="91x-zy-79n"/>
-                                    <segue destination="Ml6-sG-mFZ" kind="presentation" id="lr9-v2-qJH"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="oppure" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="01s-sG-VAS">
@@ -271,7 +270,7 @@
             <objects>
                 <tableViewController id="ljp-V9-p9A" userLabel="Settings" customClass="SettingsTableViewController" customModule="UniApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="aTV-sM-g7d">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -355,7 +354,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="giT-fD-F9M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1" y="585"/>
+            <point key="canvasLocation" x="3012" y="-905"/>
         </scene>
         <!--News Detail View Controller-->
         <scene sceneID="DAE-IE-2EH">
@@ -484,16 +483,17 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77i-4n-KlG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-663" y="586"/>
+            <point key="canvasLocation" x="2198" y="-905"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="TrO-Jg-fGq">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SwV-wE-Li1" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="kGE-jU-mYP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="kGE-jU-mYP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.67843137249999996" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -513,7 +513,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.67843137254901964" green="0.13333333333333333" blue="0.13333333333333333" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.67843137254901964" green="0.13333333333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="selectedImageTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="8kt-sB-jCg" kind="relationship" relationship="viewControllers" id="7Bs-nw-XrH"/>
@@ -524,7 +526,7 @@
             </objects>
             <point key="canvasLocation" x="-663" y="-463"/>
         </scene>
-        <!--Item-->
+        <!--News-->
         <scene sceneID="fFx-QA-Oea">
             <objects>
                 <tableViewController id="8kt-sB-jCg" customClass="NewsTableViewController" customModule="UniApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -609,13 +611,16 @@
                             <outlet property="delegate" destination="8kt-sB-jCg" id="6S1-Gi-TKw"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" id="cgY-xw-69w"/>
+                    <tabBarItem key="tabBarItem" title="News" image="News" selectedImage="NewsFilled" id="cgY-xw-69w"/>
+                    <connections>
+                        <segue destination="Ml6-sG-mFZ" kind="show" identifier="openSettings" id="AuX-K0-L1N"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FQU-FN-85t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="865" y="-196"/>
         </scene>
-        <!--Calendar Table View Controller-->
+        <!--Lezioni-->
         <scene sceneID="l6d-y5-Rra">
             <objects>
                 <tableViewController id="lcY-vh-nk7" customClass="CalendarTableViewController" customModule="UniApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -727,7 +732,10 @@
                             <outlet property="delegate" destination="lcY-vh-nk7" id="r8l-9L-rGa"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" id="PqN-up-GqS"/>
+                    <tabBarItem key="tabBarItem" title="Lezioni" image="Calendar" selectedImage="CalendarFilled" id="PqN-up-GqS"/>
+                    <connections>
+                        <segue destination="Ml6-sG-mFZ" kind="show" identifier="openSettings" id="wCL-TE-rbH"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zD8-bf-fa6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -735,6 +743,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Calendar" width="25" height="25"/>
+        <image name="CalendarFilled" width="25" height="25"/>
         <image name="LogoConsorzio" width="230" height="220"/>
+        <image name="News" width="25" height="25"/>
+        <image name="NewsFilled" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="wCL-TE-rbH"/>
+    </inferredMetricsTieBreakers>
 </document>

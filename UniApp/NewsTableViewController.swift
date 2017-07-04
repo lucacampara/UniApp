@@ -30,16 +30,23 @@ class NewsTableViewController: UITableViewController {
         
         addChildViewController(appBar.headerViewController)
         appBar.headerViewController.headerView.backgroundColor = UIColor(red: 0.6784313725490196, green: 0.1333333333333333333333, blue: 0.1333333333333333333333, alpha: 1.0)
-        appBar.navigationBar.tintColor = UIColor.black
+        appBar.navigationBar.tintColor = UIColor.white
         appBar.headerViewController.headerView.trackingScrollView = self.tableView
         appBar.addSubviewsToParent()
         
+        let icon = UIImage(named: "Settings")
+        let menuButton = UIBarButtonItem(image: icon, style: .done, target: self, action: #selector(openSettings))
+        self.navigationItem.rightBarButtonItem = menuButton;
+
         title = "News"
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 50;
 
-        
+    }
+    
+    func openSettings() {
+        self.performSegue(withIdentifier: "openSettings", sender: self)
     }
 
     override func didReceiveMemoryWarning() {

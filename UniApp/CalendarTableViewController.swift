@@ -39,12 +39,20 @@ class CalendarTableViewController: UITableViewController {
         appBar.headerViewController.headerView.trackingScrollView = self.tableView
         appBar.addSubviewsToParent()
         
+        let icon = UIImage(named: "Settings")
+        let menuButton = UIBarButtonItem(image: icon, style: .done, target: self, action: #selector(openSettings))
+        self.navigationItem.rightBarButtonItem = menuButton;
+        
         title = "Calendario"
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 50;
     }
 
+    func openSettings() {
+        self.performSegue(withIdentifier: "openSettings", sender: self)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
