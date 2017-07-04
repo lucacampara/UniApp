@@ -19,6 +19,9 @@ class cellOfNews: UITableViewCell{
 
 class NewsTableViewController: UITableViewController {
     
+    var test = DatabaseRealm()
+    var newsList = [NewsRealm]()
+    
     let appBar = MDCAppBar()
     
     var arrayDataLabel: [String] = ["15 giugno 2017", "16 giugno 2017"]
@@ -27,6 +30,9 @@ class NewsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        newsList = test.ritornaArrayNews()
+        print(newsList.count)
         
         addChildViewController(appBar.headerViewController)
         appBar.headerViewController.headerView.backgroundColor = UIColor(red: 0.6784313725490196, green: 0.1333333333333333333333, blue: 0.1333333333333333333333, alpha: 1.0)
@@ -42,6 +48,8 @@ class NewsTableViewController: UITableViewController {
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 50;
+        
+        self.tableView.reloadData()
 
     }
     
@@ -60,20 +68,23 @@ class NewsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        //return 2
+        return newsList.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCellNews", for: indexPath) as! cellOfNews
         
-        cell.labelData.text = arrayDataLabel[indexPath.row]
-
+        /*cell.labelData.text = arrayDataLabel[indexPath.row]
         cell.labelTitle.text = arrayTitleLabel[indexPath.row]
+        cell.labelContent.text = arrayContentLabel[indexPath.row]*/
         
-        cell.labelContent.text = arrayContentLabel[indexPath.row]
-
+        cell.labelData.text = newsList[indexPath.row].pub_date
+        cell.labelTitle.text = newsList[indexPath.row].title
+        cell.labelContent.text = newsList[indexPath.row].content
+        cell.imageNews.sd_setImage(with: URL(string: newsList[indexPath.row].media), placeholderImage: UIImage(named: "LogoConsorzio"))
+        
         cell.viewCard.layer.shadowPath = UIBezierPath(rect: cell.viewCard.bounds).cgPath
-        
         cell.viewCard.layer.shadowColor = UIColor.gray.cgColor
         cell.viewCard.layer.shadowOpacity = 0.25
         cell.viewCard.layer.shadowOffset = CGSize.zero
@@ -146,14 +157,24 @@ class NewsTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "showDetail" {
+            let detailController = segue.destination as! NewsDetailViewController
+            
+            if let selectedNewsCell = sender as? cellOfNews {
+                let indexPath = self.tableView.indexPath(for: selectedNewsCell)!
+                detailController.news = newsList[indexPath.row]
+            }
+            
+        }
     }
-    */
+    
 
 }

@@ -12,7 +12,9 @@ import FacebookCore
 import FBSDKLoginKit
 import MaterialComponents.MDCActivityIndicator
 
-class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento{
+class ViewController: UIViewController, chiamateAPIDelegate {
+    
+    static let USER_TOKEN = "USER_TOKEN"
     
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
@@ -21,21 +23,35 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
     
-    let activityIndicator = MDCActivityIndicator(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+    var activityIndicator = MDCActivityIndicator()
     let gestoreChiamate = ChiamateAPI()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        /*
+        let prova = DatabaseRealm()
+        var test = prova.ritornaArrayNews()
+        var test1 = prova.ritornaArrayOrari()
+        print(test,test1)
+        */
         view.addSubview(activityIndicator)
         
-        let prova = ChiamateAPI()
+        gestoreChiamate.delegate = self
+        
+        let w = self.view.frame.size.width/2 - 60
+        let h = self.view.frame.size.height/2 - 60
+        activityIndicator = MDCActivityIndicator(frame: CGRect(x: w, y: h, width: 120, height: 120))
+        activityIndicator.cycleColors = [UIColor.white]
+        view.addSubview(activityIndicator)
+        
+        /*let prova = ChiamateAPI()
         prova.delegate = self
         prova.delegateCaricamento = self
         prova.richiestaAutenticazionePOST(email: "jdfdsfds@sdfaf.it", password: "password", scelta: .SIGNUP)
         prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .POSTS, pagina: 1)
         
-        prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .TIMETABLE, pagina: 0)
+        prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .TIMETABLE, pagina: 0)*/
         
         //print("Access token \(AccessToken.current?.authenticationToken)")
         
@@ -67,10 +83,18 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
         // Dispose of any resources that can be recreated.
     }
 
+    func setMessage(message: String) {
+        DispatchQueue.main.async {
+            self.messageLabel.text = message
+            Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.resetMessage), userInfo: nil, repeats: false)
+        }
+    }
     
     // MARK: - ACTIONS
     
     @IBAction func facebookLoginButton(_ sender: Any) {
+        
+        activityIndicator.startAnimating()
         
         var loginManager = LoginManager()
         loginManager.logIn([.publicProfile], viewController: self) { loginResult in
@@ -81,14 +105,20 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
                 print("User cancelled login.")
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 print("Logged in! \(accessToken.authenticationToken)")
+                
+                // facebook chiamata
+                self.gestoreChiamate.richiestaTokenAFacebook(tokenDiFacebook: accessToken.authenticationToken)
             }
         }
     }
     
-    
+    func resetMessage() {
+        DispatchQueue.main.async {
+            self.messageLabel.text = "Accedi o registrati"
+        }
+    }
     
     @IBAction func loginButton(_ sender: Any) {
-        
 
         if (emailTextField.text?.characters.count)! > 0 && (passwordTextField.text?.characters.count)! > 0 {
             // Start animation
@@ -96,7 +126,7 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
             
             gestoreChiamate.richiestaAutenticazionePOST(email: emailTextField.text!, password: passwordTextField.text!, scelta: .LOGIN)
         } else {
-            messageLabel.text = "Inserisci tutti i campi"
+            self.setMessage(message: "Inserisci tutti i campi")
         }
         
        /* var detailVC = NewsDetailViewController()
@@ -109,15 +139,28 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
     
     func registra(access_token: String, id: String, errore: Bool, tipoErrore: String) {
         activityIndicator.stopAnimating()
-        print("risp ",access_token,id,errore,tipoErrore)
+        print("risp ",access_token,id,errore,tipoErrore, errore==true)
         
-        if errore == true {
-            messageLabel.text = tipoErrore
+        if errore {
+            self.setMessage(message: tipoErrore)
+        } else {
+            loginOk(token: access_token)
         }
-        print("risposta",access_token,id,errore,tipoErrore)
     }
-    func finitoDiCaricare() {
-        print("finito di caricare")
+    
+    
+    func loginOk(token: String) {
+        // salvo il token nelle preferences
+        UserDefaults.standard.set(token, forKey: ViewController.USER_TOKEN)
+        
+        DispatchQueue.main.async {
+            // apro la home
+            self.performSegue(withIdentifier: "showHome", sender: self)
+        }
+    }
+    
+    func validitaToken(validita: Bool) {
+        print(validita)
     }
 
 }

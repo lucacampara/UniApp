@@ -10,19 +10,53 @@ import UIKit
 import FBSDKCoreKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, controllaValiditaToken {
 
     var window: UIWindow?
-
+    let gestoreChiamte = ChiamateAPI()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application 
         
         UIApplication.shared.statusBarStyle = .lightContent
         
+        gestoreChiamte.delegateControlloToken = self
+        let token = UserDefaults.standard.string(forKey: ViewController.USER_TOKEN)
+        if token != nil {
+            print("c'è token")
+            gestoreChiamte.controllaValiditaToken(access_token: token!)
+        } else {
+            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let loginViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as UIViewController
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = loginViewController
+            self.window?.makeKeyAndVisible()
+        
+            print("no token")
+            /*let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let loginViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "loginController") as UIViewController
+            
+            let rootViewController = self.window!.rootViewController as! UINavigationController;
+            rootViewController.pushViewController(viewController, animated: true);
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = loginViewController
+            self.window?.makeKeyAndVisible()*/
+        }
+
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
+    
+    func validitaToken(validita: Bool) {
+        print("VALIDITA ", validita)
+        if !validita {
+            self.window?
+                .rootViewController!
+                .performSegue(withIdentifier: "showLogin", sender: nil)
+            
+        }
+    }
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
