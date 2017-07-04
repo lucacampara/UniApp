@@ -265,7 +265,7 @@ class ChiamateAPI: NSObject {
                             
                             // Add to the Realm inside a transaction
                             try! realm.write {
-                                realm.add(news)
+                                realm.add(news, update: true)
                             }
                             
                             print("Database: \(news)")
