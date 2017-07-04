@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol chiamateAPIDelegate: class {
     func registra(access_token:String, id: String, errore: Bool, tipoErrore: String)
@@ -90,16 +91,27 @@ class ChiamateAPI: NSObject {
                     
                     let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
                     if let responseJSON = responseJSON as? [String: Any] {
+                        
+                        if (httpResponse.statusCode != 200) {
                         print(responseJSON)
                         
                         errorMessage = (responseJSON["error"] ?? "errore") as! String
                         
-                        //print("prova print",access_token, id)
+                        print("prova print",access_token, id)
                         
                         self.delegate?.registra(access_token: "ERRORE", id: "", errore: true, tipoErrore: errorMessage)
+                        } else {
+                            print(responseJSON)
+                            access_token = (responseJSON["access_token"] ?? "errore") as! String
+                            id = (responseJSON["id"] ?? "errore") as! String
+                            
+                            print("prova print",access_token, id)
+                            
+                            self.delegate?.registra(access_token: access_token, id: id, errore: false, tipoErrore: "")
+                        }
                     }
                 }
-                
+                /*
                 let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
                 if let responseJSON = responseJSON as? [String: Any] {
                     print(responseJSON)
@@ -110,7 +122,7 @@ class ChiamateAPI: NSObject {
                     
                     self.delegate?.registra(access_token: access_token, id: id, errore: false, tipoErrore: "")
                 }
-                
+                */
                 
             })
             
@@ -225,52 +237,41 @@ class ChiamateAPI: NSObject {
                             myDictionraryPost["sticky"] = myStringDue
                             
                             
-                            /*
-                            if let id = campo["_id"] as? String {
-                                posts.append(id)
-                            }
-                            if let createdAt = campo["createdAt"] as? String {
-                                posts.append(createdAt)
-                            }
-                            if let updatedAt = campo["updatedAt"] as? String {
-                                posts.append(updatedAt)
-                            }
-                            if let slug = campo["slug"] as? String {
-                                posts.append(slug)
-                            }
-                            if let status = campo["status"] as? String {
-                                posts.append(status)
-                            }
-                            if let link = campo["link"] as? String {
-                                posts.append(link)
-                            }
-                            if let title = campo["title"] as? String {
-                                posts.append(title)
-                            }
-                            if let content = campo["content"] as? String {
-                                posts.append(content)
-                            }
-                            if let excerpt = campo["excerpt"] as? String {
-                                posts.append(excerpt)
-                            }
-                            if let sticky = campo["sticky"] as? String {
-                                posts.append(sticky)
-                            }
-                            if let media = campo["media"] as? String {
-                                posts.append(media)
-                            }
-                            if let pub_date = campo["pub_date"] as? String {
-                                posts.append(pub_date)
-                            }
-                            if let v = campo["__v"] as? String {
-                                posts.append(v)
-                            }
-                            */
                             
                             posts.append(myDictionraryPost)
                             //print("dictionary",myDictionraryPost)
                             //print("")
+                            /*
+                            let news = NewsRealm()
+                            news.id = myDictionraryPost["_id"]!
+                            news.createdAt = myDictionraryPost["createdAt"]!
+                            news.updatedAt = myDictionraryPost["updatedAt"]!
+                            news.slug = myDictionraryPost["slug"]!
+                            news.status = myDictionraryPost["status"]!
+                            news.link = myDictionraryPost["link"]!
+                            news.title = myDictionraryPost["title"]!
+                            news.content = myDictionraryPost["content"]!
+                            news.excerpt = myDictionraryPost["excerpt"]!
+                            news.sticky = myDictionraryPost["sticky"]!
+                            news.media = myDictionraryPost["media"]!
+                            news.pub_date = myDictionraryPost["pub_date"]!
+                            news.v = myDictionraryPost["__v"]!
+                            
+                            
+                            
+                            // Get the default Realm
+                            let realm = try! Realm()
+                            // You only need to do this once (per thread)
+                            
+                            // Add to the Realm inside a transaction
+                            try! realm.write {
+                                realm.add(news)
+                            }
+                            
+                            print("Database: \(news)")
+                            */
                         }
+                        
                         self.delegateCaricamento?.finitoDiCaricare()
                     }
                 } catch {

@@ -9,6 +9,8 @@
 import UIKit
 import RealmSwift
 class NewsRealm: Object {
+    
+    
     dynamic var id = ""
     dynamic var createdAt = ""
     dynamic var updatedAt = ""
@@ -22,4 +24,9 @@ class NewsRealm: Object {
     dynamic var media = ""
     dynamic var pub_date = ""
     dynamic var v = ""
+    
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
 }
