@@ -14,13 +14,14 @@ class cellOfNews: UITableViewCell{
     @IBOutlet weak var labelData: UILabel!
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var labelContent: UILabel!
+    @IBOutlet weak var viewCard: UIView!
 }
 
 class NewsTableViewController: UITableViewController {
     
     let appBar = MDCAppBar()
     
-    var arrayDataLabel: [String] = ["15 giugno 2017", "16 giugno 2017"];
+    var arrayDataLabel: [String] = ["15 giugno 2017", "16 giugno 2017"]
     var arrayTitleLabel: [String] = ["Ateneo, cambio al vertice dell'amministrazione", "Dall’ERDISU all’ARDISS"];
     var arrayContentLabel: [String] = ["Con il 1° gennaio 2014 i due ERDISU regionali sono stati soppressi facendo nascere l&#8217;ARDISS, ovvero l&#8217;Agenzia regionale per il diritto agli studi superiori, assorbendo le finalità ed i servizi dei precedenti enti nell&#8217;ottica di riorganizzare il diritto allo studio superiore in Friuli Venezia Giulia", "Massimo Di Silverio, 55 anni, laureato in Scienze politiche, è il nuovo direttore generale dell&#8217;Ateneo friulano. L&#8217;incarico, di durata triennale e rinnovabile, è stato deliberato all&#8217;unanimità dal"];
     
@@ -64,6 +65,14 @@ class NewsTableViewController: UITableViewController {
         
         cell.labelContent.text = arrayContentLabel[indexPath.row]
 
+        cell.viewCard.layer.shadowPath = UIBezierPath(rect: cell.viewCard.bounds).cgPath
+        
+        cell.viewCard.layer.shadowColor = UIColor.gray.cgColor
+        cell.viewCard.layer.shadowOpacity = 0.25
+        cell.viewCard.layer.shadowOffset = CGSize.zero
+        cell.viewCard.layer.shadowRadius = 10
+        cell.viewCard.layer.masksToBounds = true;
+        cell.viewCard.clipsToBounds = false;
 
         return cell
     }
