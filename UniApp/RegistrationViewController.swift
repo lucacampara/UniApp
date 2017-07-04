@@ -95,5 +95,9 @@ class RegistrationViewController: UIViewController, chiamateAPIDelegate {
         activityIndicator.stopAnimating()
         print("risposta",access_token,id,errore,tipoErrore)
     }
+    
+    func validitaToken(validita: Bool) {
+        print(validita)
+    }
 
 }

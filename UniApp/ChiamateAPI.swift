@@ -11,6 +11,7 @@ import RealmSwift
 
 protocol chiamateAPIDelegate: class {
     func registra(access_token:String, id: String, errore: Bool, tipoErrore: String)
+    func validitaToken(validita: Bool)
 }
 
 protocol controllaCaricamento: class {
@@ -389,6 +390,53 @@ class ChiamateAPI: NSObject {
             print("Error")
         }
 
+    }
+    
+    
+    func controllaValiditaToken(access_token: String) {
+        
+        var checkError = false;
+        
+        let session = URLSession.shared
+        
+        let url = NSURL(string: "http://apiunipn.parol.in/V1/user/login")!
+        let request = NSMutableURLRequest(url: url as URL)
+        
+        do {
+            // JSON all the things
+            //let auth = try JSONSerialization.data(withJSONObject: login, options: .prettyPrinted)
+            
+            // Set the request content type to JSON
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            // The magic...set the HTTP request method to POST
+            request.httpMethod = "GET"
+            
+            
+            request.setValue("Bearer \(access_token)", forHTTPHeaderField: "Authorization")
+            
+            // Add the JSON serialized login data to the body
+            //request.httpBody = auth
+            
+            // Create the task that will send our login request (asynchronously)
+            let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+                // Do something with the HTTP response
+                print("Got response \(String(describing: response)) with error \(String(describing: error))")
+                print("Done.")
+                
+                
+                if let httpResponse = response as? HTTPURLResponse {
+                    print("STATUS CODE",httpResponse.statusCode)
+                    if (httpResponse.statusCode != 200) {
+                        checkError = true;
+                    }
+                }
+            })
+                task.resume()
+            
+        }
+    
+        self.delegate?.validitaToken(validita: checkError)
     }
     
     func convertiDataOraNews(dataora: String)->String {

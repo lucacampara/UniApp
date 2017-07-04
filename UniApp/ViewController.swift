@@ -119,6 +119,10 @@ class ViewController: UIViewController,chiamateAPIDelegate, controllaCaricamento
     func finitoDiCaricare() {
         print("finito di caricare")
     }
+    
+    func validitaToken(validita: Bool) {
+        print(validita)
+    }
 
 }
 
