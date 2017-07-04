@@ -8,8 +8,10 @@
 
 import UIKit
 import MaterialComponents.MaterialAppBar
+import SwipeCellKit
+import UserNotifications
 
-class cellOfCalendar: UITableViewCell{
+class cellOfCalendar: SwipeTableViewCell{
     @IBOutlet weak var labelCourse: UILabel!
     @IBOutlet weak var labelHour: UILabel!
     @IBOutlet weak var labelTeacher: UILabel!
@@ -19,7 +21,7 @@ class cellOfCalendar: UITableViewCell{
     @IBOutlet weak var viewColor: UIView!
 }
 
-class CalendarTableViewController: UITableViewController {
+class CalendarTableViewController: UITableViewController, SwipeTableViewCellDelegate {
     
     let appBar = MDCAppBar()
     
@@ -29,9 +31,9 @@ class CalendarTableViewController: UITableViewController {
     var arrayHourLabel: [String] = ["09:00 - 13:00", "14:00 - 18:00", "09:00 - 13:00"];
     var arrayLessonLabel: [String] = ["Tecnologie Multimediali e Laboratorio + Test d'ingresso", "ergonomia 2AB", "ergonomia 3AB"];
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        permissionNotification();
 
         addChildViewController(appBar.headerViewController)
         appBar.headerViewController.headerView.backgroundColor = UIColor(red: 0.6784313725490196, green: 0.1333333333333333333333, blue: 0.1333333333333333333333, alpha: 1.0)
@@ -80,9 +82,48 @@ class CalendarTableViewController: UITableViewController {
         cell.labelHour.text = arrayHourLabel[indexPath.row]
         cell.labelClass.text = arrayClassLabel[indexPath.row]
         
+        cell.delegate = self
+        
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+    
+        // #### NOTIFICATION ACTION ### \\
+        
+        let notificationAction = SwipeAction(style: .default, title: "Abilita\nnotifica") { action, indexPath in
+            
+            let alertController = UIAlertController(title: "Notifica", message:
+                "Sicuro di voler attivare la notifica per questa lezione?", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Annulla", style: UIAlertActionStyle.default,handler: nil))
+            alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: { action in
+                self.scheduleNotification(title: "Lezione di Gino Parigino", contents: "La lezione sta per iniziare! Muovi il culo!", hour: 16, minute: 6)
+            }))
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+        notificationAction.textColor = UIColor.orange
+        notificationAction.image = UIImage(named: "Notification")
+        notificationAction.transitionDelegate = ScaleTransition.default
+        notificationAction.backgroundColor = UIColor(white: 1, alpha: 0.5)
 
+        
+        // #### CALENDAR ACTION ### \\
+        
+        let calendarAction = SwipeAction(style: .default, title: "Aggiungi al\ncalendario") { action, indexPath in
+            print("PULSANTE CALENDARIO PREMUTO")
+        }
+        
+        calendarAction.transitionDelegate = ScaleTransition.default
+        calendarAction.textColor = UIColor.orange
+        calendarAction.image = UIImage(named: "CalendarPlus")
+        calendarAction.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        
+        return [calendarAction, notificationAction]
+    }
+    
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -154,6 +195,49 @@ class CalendarTableViewController: UITableViewController {
         if scrollView == appBar.headerViewController.headerView.trackingScrollView {
             let headerView = appBar.headerViewController.headerView
             headerView.trackingScrollWillEndDragging(withVelocity: velocity, targetContentOffset: targetContentOffset)
+        }
+    }
+
+    func permissionNotification(){
+        UNUserNotificationCenter.current().getNotificationSettings{(settings) in
+            if(settings.authorizationStatus == .authorized){
+                //User give authorized
+                self.scheduleNotification(title: "Notifica insulatativa", contents: "vai a farti fottere", hour: 11, minute: 48)
+            }else{
+                //User not give authorized
+                UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert], completionHandler:{ (granted, error) in
+                    if let error = error{
+                        print(error)
+                        
+                    }else{
+                        if(granted){
+                            self.scheduleNotification(title: "Notifica insulatativa", contents: "vai a farti fottere", hour: 12, minute: 02)
+                        }
+                    }
+                })
+            }
+        }
+    }
+    
+    func scheduleNotification(title: String, contents: String, hour: Int, minute: Int){
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = contents
+        
+        var dateInfo = DateComponents()
+        dateInfo.hour = hour
+        dateInfo.minute = minute
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: false)
+        
+        let NotificationRequest = UNNotificationRequest(identifier: "timedNotificationIdentifier", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(NotificationRequest) { (error) in
+            if let error = error {
+                print(error)
+            }else{
+                print("Notification sheduled!")
+            }
+            
         }
     }
     

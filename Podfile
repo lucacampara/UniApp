@@ -12,5 +12,6 @@ target 'UniApp' do
   pod 'SDWebImage', '~>3.8'
   pod 'FacebookCore'
   pod 'FacebookLogin'
+  pod 'SwipeCellKit'
 
 end

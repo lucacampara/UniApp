@@ -187,6 +187,7 @@ PODS:
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
+  - SwipeCellKit (1.8.0)
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.2.0)
@@ -195,6 +196,7 @@ DEPENDENCIES:
   - MaterialComponents
   - RealmSwift
   - SDWebImage (~> 3.8)
+  - SwipeCellKit
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: d11a4c12c6aaf704b8a3f56d179198c99f3e41e6
@@ -208,7 +210,8 @@ SPEC CHECKSUMS:
   Realm: 07e5d3a9e0e41d65fd5f9f05150ed6295d0f093b
   RealmSwift: 6d06425d3900c86473c4f323bf6949b43fca22bc
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  SwipeCellKit: 01a58bf7e63d5df09aedd161828833944c4c333c
 
-PODFILE CHECKSUM: 777b9289923f4f828a68957bbf67a2cd9373a5d4
+PODFILE CHECKSUM: dbb6e8d166d4c1725cc40e0efe230e6eae2eb3c8
 
 COCOAPODS: 1.2.0
