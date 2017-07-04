@@ -10,10 +10,12 @@ import UIKit
 import MaterialComponents.MDCActivityIndicator
 
 class RegistrationViewController: UIViewController, chiamateAPIDelegate {
+    
+    
+    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var emailRegistrationTextField: UITextField!
     @IBOutlet weak var repeatPasswordRegistrationTextField: UITextField!
     @IBOutlet weak var passwordRegistrationTextField: UITextField!
-    
     @IBOutlet weak var registrationButton: UIButton!
 
     var gestoreChiamate = ChiamateAPI()
@@ -58,6 +60,19 @@ class RegistrationViewController: UIViewController, chiamateAPIDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func setMessage(message: String) {
+        DispatchQueue.main.async {
+            self.messageLabel.text = message
+            Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.resetMessage), userInfo: nil, repeats: false)
+        }
+    }
+    
+    func resetMessage() {
+        DispatchQueue.main.async {
+            self.messageLabel.text = ""
+        }
+    }
 
     /*
     // MARK: - Navigation
@@ -81,7 +96,10 @@ class RegistrationViewController: UIViewController, chiamateAPIDelegate {
                 print("ok password")
             } else {
                 print("password failed")
+                self.setMessage(message: "Le password inserite non corrispondono")
             }
+        } else {
+            self.setMessage(message: "Inserisci tutti i campi")
         }
     }
     
@@ -94,6 +112,22 @@ class RegistrationViewController: UIViewController, chiamateAPIDelegate {
     func registra(access_token: String, id: String, errore: Bool, tipoErrore: String) {
         activityIndicator.stopAnimating()
         print("risposta",access_token,id,errore,tipoErrore)
+        
+        if errore {
+            self.setMessage(message: tipoErrore)
+        } else {
+            loginOk(token: access_token)
+        }
+    }
+    
+    func loginOk(token: String) {
+        // salvo il token nelle preferences
+        UserDefaults.standard.set(token, forKey: ViewController.USER_TOKEN)
+        
+        DispatchQueue.main.async {
+            // apro la home
+            self.performSegue(withIdentifier: "showHome", sender: self)
+        }
     }
 
 }
