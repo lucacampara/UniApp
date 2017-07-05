@@ -9,7 +9,7 @@
 import UIKit
 import MaterialComponents.MDCActivityIndicator
 
-class RegistrationViewController: UIViewController, chiamateAPIDelegate {
+class RegistrationViewController: UIViewController, chiamateAPIDelegate, UITextFieldDelegate {
     
     
     @IBOutlet weak var messageLabel: UILabel!
@@ -23,6 +23,10 @@ class RegistrationViewController: UIViewController, chiamateAPIDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        emailRegistrationTextField.delegate = self
+        passwordRegistrationTextField.delegate = self
+        repeatPasswordRegistrationTextField.delegate = self
         
         gestoreChiamate.delegate = self
         
@@ -53,6 +57,29 @@ class RegistrationViewController: UIViewController, chiamateAPIDelegate {
                                                                                  attributes: [NSForegroundColorAttributeName: UIColor.lightGray])
         
         // Do any additional setup after loading the view.
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        let nextTag = textField.tag+1;
+        // Try to find next responder
+        let nextResponder=textField.superview?.viewWithTag(nextTag) as UIResponder!
+        
+        if (nextResponder != nil){
+            // Found next responder, so set it.
+            nextResponder?.becomeFirstResponder()
+        }
+        else
+        {
+            // Not found, so remove keyboard
+            textField.resignFirstResponder()
+        }
+        
+        if nextTag == 4 {
+            self.view.endEditing(true)
+        }
+        
+        return false // We do not want UITextField to insert line-breaks.
     }
 
     override func didReceiveMemoryWarning() {

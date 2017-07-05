@@ -24,19 +24,29 @@ class DatabaseRealm: NSObject {
         return news
     }
     
-    func ritornaArrayOrari() ->Array<Any> {
+    func ritornaDicionaryArrayRealmOrari() -> Dictionary<String, Array<OrarioRealm>>{
         var orari = [OrarioRealm]()
+        var emptyDictionary = [String: Array<OrarioRealm>]()
         do {
             let realm = try Realm()
-            orari = realm.objects(OrarioRealm).toArray()
-            //print(orari)
-        
-            
-        } catch _ {
-            // ...
+            orari = realm.objects(OrarioRealm).sorted(byKeyPath: "time_start").toArray() //print(orari)
+            if orari.count > 0 {
+                var data = orari[0].dataLezione
+                var arrayOrariCorrenti = [OrarioRealm]()
+                for orario in orari {
+                    if (data != orario.dataLezione) {
+                        emptyDictionary[data] = arrayOrariCorrenti
+                        data = orario.dataLezione
+                        print("DATA ", orario.dataLezione)
+                        arrayOrariCorrenti.removeAll()
+                    } else {
+                        arrayOrariCorrenti.append(orario)
+                    }
+                }
+            }
+        } catch _ { // ...
         }
-        
-        return orari
+        return emptyDictionary
     }
     
 }

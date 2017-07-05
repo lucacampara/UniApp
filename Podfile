@@ -13,5 +13,6 @@ target 'UniApp' do
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'SwipeCellKit'
+  pod 'IQKeyboardManagerSwift'
 
 end

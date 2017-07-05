@@ -18,6 +18,7 @@ PODS:
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.22.1):
     - FBSDKCoreKit
+  - IQKeyboardManagerSwift (4.0.9)
   - MaterialComponents (23.2.0):
     - MaterialComponents/ActivityIndicator (= 23.2.0)
     - MaterialComponents/AnimationTiming (= 23.2.0)
@@ -193,6 +194,7 @@ DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.2.0)
   - FacebookCore
   - FacebookLogin
+  - IQKeyboardManagerSwift
   - MaterialComponents
   - RealmSwift
   - SDWebImage (~> 3.8)
@@ -205,6 +207,7 @@ SPEC CHECKSUMS:
   FacebookLogin: c9d606504735780a9e3002465a615512e0a691a5
   FBSDKCoreKit: 9c2daf0162214d6d2e21cf8208a9c6c2a2e42b9c
   FBSDKLoginKit: 00cf28916b9f0169763a3d61985d745b579fe304
+  IQKeyboardManagerSwift: 2eefe6c429b86aa08bfbc1b5c891164d754adf91
   MaterialComponents: 42e94262fa87a7ecadd3452ea09910c1254dc55a
   MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
   Realm: 07e5d3a9e0e41d65fd5f9f05150ed6295d0f093b
@@ -212,6 +215,6 @@ SPEC CHECKSUMS:
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SwipeCellKit: 01a58bf7e63d5df09aedd161828833944c4c333c
 
-PODFILE CHECKSUM: dbb6e8d166d4c1725cc40e0efe230e6eae2eb3c8
+PODFILE CHECKSUM: 3a6249f14bd1f51d11fa363a4194ff5bed6ec87b
 
 COCOAPODS: 1.2.0

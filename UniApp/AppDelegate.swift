@@ -8,6 +8,7 @@
 
 import UIKit
 import FBSDKCoreKit
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, controllaValiditaToken {
@@ -18,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, controllaValiditaToken {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application 
         
+        IQKeyboardManager.sharedManager().enable = true
         UIApplication.shared.statusBarStyle = .lightContent
         
         gestoreChiamte.delegateControlloToken = self

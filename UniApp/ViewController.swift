@@ -12,7 +12,7 @@ import FacebookCore
 import FBSDKLoginKit
 import MaterialComponents.MDCActivityIndicator
 
-class ViewController: UIViewController, chiamateAPIDelegate {
+class ViewController: UIViewController, chiamateAPIDelegate, UITextFieldDelegate {
     
     static let USER_TOKEN = "USER_TOKEN"
     
@@ -28,6 +28,9 @@ class ViewController: UIViewController, chiamateAPIDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
 
         /*
         let prova = DatabaseRealm()
@@ -78,6 +81,25 @@ class ViewController: UIViewController, chiamateAPIDelegate {
         
     }
     
+/*    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        // register for keyboard notifications
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+    }*/
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -88,6 +110,89 @@ class ViewController: UIViewController, chiamateAPIDelegate {
             self.messageLabel.text = message
             Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.resetMessage), userInfo: nil, repeats: false)
         }
+    }
+    
+    /*func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("BEGIN")
+        if textField.isEqual(emailTextField) {
+            //move the main view, so that the keyboard does not hide it.
+            if  (self.view.frame.origin.y >= 0)
+            {
+                self.setViewMovedUp(movedUp: true)
+            }
+        }
+    }
+    
+    func keyboardWillShow() {
+        print("1")
+        if self.view.frame.origin.y >= 0{
+            self.setViewMovedUp(movedUp: true)
+        }
+        else if (self.view.frame.origin.y < 0)
+        {
+            self.setViewMovedUp(movedUp: false)
+        }
+    }
+    
+    func keyboardWillHide() {
+        print("2")
+        if self.view.frame.origin.y >= 0 {
+            self.setViewMovedUp(movedUp: true)
+        }
+        else if (self.view.frame.origin.y < 0)
+        {
+            self.setViewMovedUp(movedUp: false)
+        }
+    }
+    
+    let kOFFSET_FOR_KEYBOARD: CGFloat = 200.0
+    
+    func setViewMovedUp(movedUp: Bool) {
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(3)
+        
+        var rect = self.view.frame
+    
+        if movedUp{
+            // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
+            // 2. increase the size of the view so that the area behind the keyboard is covered up.
+            rect.origin.y -= kOFFSET_FOR_KEYBOARD;
+            rect.size.height += kOFFSET_FOR_KEYBOARD;
+        }
+        else {
+            // revert back to the normal state.
+            rect.origin.y += kOFFSET_FOR_KEYBOARD;
+            rect.size.height -= kOFFSET_FOR_KEYBOARD;
+        }
+        self.view.frame = rect;
+        
+        UIView.commitAnimations()
+
+    }*/
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        print("RETURN")
+        
+        let nextTag = textField.tag+1;
+        // Try to find next responder
+        let nextResponder=textField.superview?.viewWithTag(nextTag) as UIResponder!
+        
+        if (nextResponder != nil){
+            // Found next responder, so set it.
+            nextResponder?.becomeFirstResponder()
+        }
+        else
+        {
+            // Not found, so remove keyboard
+            textField.resignFirstResponder()
+        }
+        
+        if nextTag == 3 {
+            self.view.endEditing(true)
+        }
+        
+        return false // We do not want UITextField to insert line-breaks.
     }
     
     // MARK: - ACTIONS

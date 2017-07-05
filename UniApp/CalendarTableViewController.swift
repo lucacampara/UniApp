@@ -10,6 +10,7 @@ import UIKit
 import MaterialComponents.MaterialAppBar
 import SwipeCellKit
 import UserNotifications
+import EventKit
 
 class cellOfCalendar: SwipeTableViewCell{
     @IBOutlet weak var labelCourse: UILabel!
@@ -21,13 +22,20 @@ class cellOfCalendar: SwipeTableViewCell{
     @IBOutlet weak var viewColor: UIView!
 }
 
+class calendarHeaderCell: UITableViewCell {
+    @IBOutlet weak var labelDate: UILabel!
+}
+
 class CalendarTableViewController: UITableViewController, SwipeTableViewCellDelegate, controllaCaricamento {
     
     var colorsDictionary = [String: UIColor]()
     
     var databaseRealm = DatabaseRealm()
     var calendarList = [OrarioRealm]()
+    var dictionary = [String: Array<OrarioRealm>]()
     let chiamate = ChiamateAPI()
+    
+    var allKeysDays = Array<String>()
     
     let appBar = MDCAppBar()
     
@@ -42,17 +50,24 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         permissionNotification();
         
         initColors()
+
+//  calendarList = databaseRealm.ritornaArrayOrari() as! [OrarioRealm]
         
-        calendarList = databaseRealm.ritornaArrayOrari() as! [OrarioRealm]
-        print(calendarList.count)
+        dictionary = databaseRealm.ritornaDicionaryArrayRealmOrari()
+        allKeysDays = Array(dictionary.keys).sorted(by: {$0<$1})
+        
+        print("ABC ", dictionary.count)
+        print(allKeysDays)
+        
         
         let token = UserDefaults.standard.string(forKey: ViewController.USER_TOKEN)
         
         chiamate.delegateCaricamento = self
         
-        if calendarList.count == 0 {
+        if dictionary.count == 0 {
             chiamate.richiesteDatiGET(access_token: token!, scelta: .TIMETABLE, pagina: 0)
         }
+        
 
         addChildViewController(appBar.headerViewController)
         appBar.headerViewController.headerView.backgroundColor = Utils.UIColorFromRGB(rgbValue: 0xAD2222)
@@ -80,10 +95,12 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         self.tableView.estimatedRowHeight = 50;
     }
     
-    func finitoDiCaricare() {
+    func finitoDiCaricare(page: Int) {
         DispatchQueue.main.async {
-            self.calendarList = self.databaseRealm.ritornaArrayOrari() as! [OrarioRealm]
-            print("finito ", self.calendarList.count)
+//            self.calendarList = self.databaseRealm.ritornaArrayOrari() as! [OrarioRealm]
+            self.dictionary = self.databaseRealm.ritornaDicionaryArrayRealmOrari()
+            self.allKeysDays = Array(self.dictionary.keys).sorted(by: {$0<$1})
+            print("finito ", self.dictionary.count)
             self.tableView.reloadData()
         }
     }
@@ -93,6 +110,7 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         colorsDictionary["UniUD"] = Utils.UIColorFromRGB(rgbValue: 0x1e88e5)
         colorsDictionary["UniTS"] = Utils.UIColorFromRGB(rgbValue: 0x43a047)
         colorsDictionary["ISIA"] = Utils.UIColorFromRGB(rgbValue: 0xfdd835)
+        colorsDictionary["Consortium Service"] = Utils.UIColorFromRGB(rgbValue: 0x8e24aa)
     }
 
     func openSettings() {
@@ -108,24 +126,24 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return dictionary.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.calendarList.count
+        return (dictionary[self.allKeysDays[section]]?.count)!
     }
-
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCellCalendar", for: indexPath) as! cellOfCalendar
         
-        cell.labelCourse.text = calendarList[indexPath.row].course
-        cell.labelLesson.text = calendarList[indexPath.row].name
-        cell.labelTeacher.text = calendarList[indexPath.row].prof
-        cell.labelHour.text = "\(calendarList[indexPath.row].oraInizioLezione) - \(calendarList[indexPath.row].oraFineLezione)"
-        cell.labelClass.text = calendarList[indexPath.row].classe
-        cell.viewColor.backgroundColor = colorsDictionary[calendarList[indexPath.row].course]
+        
+        cell.labelCourse.text = self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row].course
+        cell.labelLesson.text = self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row].name
+        cell.labelTeacher.text = self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row].prof
+        cell.labelHour.text = "\(self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row].oraInizioLezione as! String) - \(self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row].oraFineLezione as! String)"
+        cell.labelClass.text = self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row].classe
+        cell.viewColor.backgroundColor = colorsDictionary[(self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row].course)!]
 
         /*cell.labelCourse.text = arrayCourseLabel[indexPath.row]
         cell.labelLesson.text = arrayLessonLabel[indexPath.row]
@@ -139,7 +157,24 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.allKeysDays[section]
+    }
+    
+    /*override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        print("HEADER")
+        let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "cellHeader") as! calendarHeaderCell
+        
+        headerCell.labelDate.text = self.allKeysDays[section]
+        
+        return headerCell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50.0
+    }*/
+    
+    /*override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.size.width, height: 18))
         let label = UILabel(frame: CGRect.init(x: 10, y: 5, width: tableView.frame.size.width, height: 18))
         label.font = UIFont.systemFont(ofSize: 14)
@@ -148,7 +183,7 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         view.backgroundColor = UIColor.gray // Set your background color
         
         return view
-    }
+    }*/
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
@@ -166,26 +201,62 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
             
             self.present(alertController, animated: true, completion: nil)
         }
+        
+        let gray = UIColor(white: 1, alpha: 0.5)
+        
         notificationAction.textColor = UIColor.orange
         notificationAction.image = UIImage(named: "Notification")
         notificationAction.transitionDelegate = ScaleTransition.default
-        notificationAction.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        notificationAction.backgroundColor = gray
 
         
         // #### CALENDAR ACTION ### \\
         
         let calendarAction = SwipeAction(style: .default, title: "Aggiungi al\ncalendario") { action, indexPath in
             print("PULSANTE CALENDARIO PREMUTO")
+            var lezione = (self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row])!
+            print(lezione)
+            
+            self.addToCalendar(title: lezione.name, start: lezione.oraInizioLezione, end: lezione.oraFineLezione)
         }
         
         calendarAction.transitionDelegate = ScaleTransition.default
         calendarAction.textColor = UIColor.orange
         calendarAction.image = UIImage(named: "CalendarPlus")
-        calendarAction.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        calendarAction.backgroundColor = gray
         
         return [calendarAction, notificationAction]
     }
     
+    
+    func addToCalendar(title: String, start: String, end: String) {
+        
+            let store = EKEventStore()
+            store.requestAccess(to: .event) {(granted, error) in
+                if !granted { return }
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                let dateStart = dateFormatter.date(from: start)
+                let dateEnd = dateFormatter.date(from: end)
+                
+                print(dateStart)
+                
+                var event = EKEvent(eventStore: store)
+                event.title = title
+                event.startDate = dateStart!
+                event.endDate = dateEnd!
+                event.calendar = store.defaultCalendarForNewEvents
+                
+                do {
+                    try store.save(event, span: .thisEvent, commit: true)
+                    let savedEventId = event.eventIdentifier //save event id to access this particular event later
+                } catch {
+                    // Display error to user
+                }
+            
+        }
+    }
     
 
     /*

@@ -15,7 +15,7 @@ protocol chiamateAPIDelegate: class {
 }
 
 protocol controllaCaricamento: class {
-    func finitoDiCaricare()
+    func finitoDiCaricare(page: Int)
 }
 
 protocol  controllaValiditaToken {
@@ -345,7 +345,7 @@ class ChiamateAPI: NSObject {
                             print("Database: \(news)")
                         }
                         
-                        self.delegateCaricamento?.finitoDiCaricare()
+                        self.delegateCaricamento?.finitoDiCaricare(page: pagina)
                     }
                 } catch {
                     print("Error deserializing JSON: \(error)")
@@ -427,7 +427,7 @@ class ChiamateAPI: NSObject {
                                 
                                 
                             }
-                            self.delegateCaricamento?.finitoDiCaricare()
+                            self.delegateCaricamento?.finitoDiCaricare(page: pagina)
                         }
                     } catch {
                         print("Error deserializing JSON: \(error)")

@@ -46,7 +46,7 @@ class NewsDetailViewController: UIViewController {
         //appBar.navigationBar.leftBarButtonItem = backButton
         
         newsImage.sd_setImage(with: URL(string: news.media), placeholderImage: UIImage(named: "LogoConsorzio"))
-        newsDate.text = news.createdAt
+        newsDate.text = news.dataNews
         newsTitle.text = news.title
         newsDetail.text = news.content
         
