@@ -21,7 +21,13 @@ class cellOfCalendar: SwipeTableViewCell{
     @IBOutlet weak var viewColor: UIView!
 }
 
-class CalendarTableViewController: UITableViewController, SwipeTableViewCellDelegate {
+class CalendarTableViewController: UITableViewController, SwipeTableViewCellDelegate, controllaCaricamento {
+    
+    var colorsDictionary = [String: UIColor]()
+    
+    var databaseRealm = DatabaseRealm()
+    var calendarList = [OrarioRealm]()
+    let chiamate = ChiamateAPI()
     
     let appBar = MDCAppBar()
     
@@ -34,9 +40,22 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
     override func viewDidLoad() {
         super.viewDidLoad()
         permissionNotification();
+        
+        initColors()
+        
+        calendarList = databaseRealm.ritornaArrayOrari() as! [OrarioRealm]
+        print(calendarList.count)
+        
+        let token = UserDefaults.standard.string(forKey: ViewController.USER_TOKEN)
+        
+        chiamate.delegateCaricamento = self
+        
+        if calendarList.count == 0 {
+            chiamate.richiesteDatiGET(access_token: token!, scelta: .TIMETABLE, pagina: 0)
+        }
 
         addChildViewController(appBar.headerViewController)
-        appBar.headerViewController.headerView.backgroundColor = UIColor(red: 0.6784313725490196, green: 0.1333333333333333333333, blue: 0.1333333333333333333333, alpha: 1.0)
+        appBar.headerViewController.headerView.backgroundColor = Utils.UIColorFromRGB(rgbValue: 0xAD2222)
         appBar.navigationBar.tintColor = UIColor.black
         appBar.headerViewController.headerView.trackingScrollView = self.tableView
         appBar.addSubviewsToParent()
@@ -45,10 +64,35 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         let menuButton = UIBarButtonItem(image: icon, style: .done, target: self, action: #selector(openSettings))
         self.navigationItem.rightBarButtonItem = menuButton;
         
-        title = "Lezioni"
+        //title = "Lezioni"
+        
+        let view1 = UIView(frame: CGRect.init(x: 0, y: 0, width: view.frame.size.width, height: 18))
+        let label = UILabel(frame: CGRect.init(x: 0, y: 20, width: view.frame.size.width, height: 18))
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.text = "Lezioni"
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        view1.addSubview(label)
+        //view1.backgroundColor = UIColor.gray // Set your background color
+        appBar.navigationBar.addSubview(view1)
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 50;
+    }
+    
+    func finitoDiCaricare() {
+        DispatchQueue.main.async {
+            self.calendarList = self.databaseRealm.ritornaArrayOrari() as! [OrarioRealm]
+            print("finito ", self.calendarList.count)
+            self.tableView.reloadData()
+        }
+    }
+    
+    func initColors() {
+        colorsDictionary["I.T.S."] = Utils.UIColorFromRGB(rgbValue: 0xe53935)
+        colorsDictionary["UniUD"] = Utils.UIColorFromRGB(rgbValue: 0x1e88e5)
+        colorsDictionary["UniTS"] = Utils.UIColorFromRGB(rgbValue: 0x43a047)
+        colorsDictionary["ISIA"] = Utils.UIColorFromRGB(rgbValue: 0xfdd835)
     }
 
     func openSettings() {
@@ -69,22 +113,41 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return self.calendarList.count
     }
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCellCalendar", for: indexPath) as! cellOfCalendar
         
-        cell.labelCourse.text = arrayCourseLabel[indexPath.row]
+        cell.labelCourse.text = calendarList[indexPath.row].course
+        cell.labelLesson.text = calendarList[indexPath.row].name
+        cell.labelTeacher.text = calendarList[indexPath.row].prof
+        cell.labelHour.text = "\(calendarList[indexPath.row].oraInizioLezione) - \(calendarList[indexPath.row].oraFineLezione)"
+        cell.labelClass.text = calendarList[indexPath.row].classe
+        cell.viewColor.backgroundColor = colorsDictionary[calendarList[indexPath.row].course]
+
+        /*cell.labelCourse.text = arrayCourseLabel[indexPath.row]
         cell.labelLesson.text = arrayLessonLabel[indexPath.row]
         cell.labelTeacher.text = arrayTeacherLabel[indexPath.row]
         cell.labelHour.text = arrayHourLabel[indexPath.row]
-        cell.labelClass.text = arrayClassLabel[indexPath.row]
-        
+        cell.labelClass.text = arrayClassLabel[indexPath.row]*/
+
+
         cell.delegate = self
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.size.width, height: 18))
+        let label = UILabel(frame: CGRect.init(x: 10, y: 5, width: tableView.frame.size.width, height: 18))
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.text = "4 giugno 2017"
+        view.addSubview(label)
+        view.backgroundColor = UIColor.gray // Set your background color
+        
+        return view
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {

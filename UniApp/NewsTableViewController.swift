@@ -8,6 +8,7 @@
 
 import UIKit
 import MaterialComponents.MaterialAppBar
+import MaterialComponents.MaterialActivityIndicator
 
 class cellOfNews: UITableViewCell{
     @IBOutlet weak var imageNews: UIImageView!
@@ -15,12 +16,15 @@ class cellOfNews: UITableViewCell{
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var labelContent: UILabel!
     @IBOutlet weak var viewCard: UIView!
+    @IBOutlet weak var newImage: UIImageView!
 }
 
-class NewsTableViewController: UITableViewController {
+class NewsTableViewController: UITableViewController, controllaCaricamento {
     
-    var test = DatabaseRealm()
+    var databaseRealm = DatabaseRealm()
     var newsList = [NewsRealm]()
+    let chiamate = ChiamateAPI()
+    var activityIndicator = MDCActivityIndicator()
     
     let appBar = MDCAppBar()
     
@@ -31,11 +35,25 @@ class NewsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        newsList = test.ritornaArrayNews()
-        print(newsList.count)
+        newsList = databaseRealm.ritornaArrayNews()
+        
+        let w = self.view.frame.size.width/2 - 60
+        let h = self.view.frame.size.height/2 - 60
+        activityIndicator = MDCActivityIndicator(frame: CGRect(x: w, y: h, width: 120, height: 120))
+        activityIndicator.cycleColors = [Utils.UIColorFromRGB(rgbValue: 0xAD2222)]
+        view.addSubview(activityIndicator)
+        
+        let token = UserDefaults.standard.string(forKey: ViewController.USER_TOKEN)
+        
+        chiamate.delegateCaricamento = self
+        
+        if newsList.count == 0 {
+            activityIndicator.startAnimating()
+            chiamate.richiesteDatiGET(access_token: token!, scelta: .POSTS, pagina: 0)
+        }
         
         addChildViewController(appBar.headerViewController)
-        appBar.headerViewController.headerView.backgroundColor = UIColor(red: 0.6784313725490196, green: 0.1333333333333333333333, blue: 0.1333333333333333333333, alpha: 1.0)
+        appBar.headerViewController.headerView.backgroundColor = Utils.UIColorFromRGB(rgbValue: 0xAD2222)
         appBar.navigationBar.tintColor = UIColor.white
         appBar.headerViewController.headerView.trackingScrollView = self.tableView
         appBar.addSubviewsToParent()
@@ -44,7 +62,17 @@ class NewsTableViewController: UITableViewController {
         let menuButton = UIBarButtonItem(image: icon, style: .done, target: self, action: #selector(openSettings))
         self.navigationItem.rightBarButtonItem = menuButton;
 
-        title = "News"
+        //title = "News"
+        
+        let view1 = UIView(frame: CGRect.init(x: 0, y: 0, width: view.frame.size.width, height: 18))
+        let label = UILabel(frame: CGRect.init(x: 0, y: 20, width: view.frame.size.width, height: 18))
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.text = "News"
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        view1.addSubview(label)
+        //view1.backgroundColor = UIColor.gray // Set your background color
+        appBar.navigationBar.addSubview(view1)
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 50;
@@ -83,14 +111,15 @@ class NewsTableViewController: UITableViewController {
         cell.labelTitle.text = newsList[indexPath.row].title
         cell.labelContent.text = newsList[indexPath.row].content
         cell.imageNews.sd_setImage(with: URL(string: newsList[indexPath.row].media), placeholderImage: UIImage(named: "LogoConsorzio"))
+        //cell.newImage.sd_setImage(with: URL(string: newsList[indexPath.row].media), placeholderImage: UIImage(named: "LogoConsorzio"))
         
-        cell.viewCard.layer.shadowPath = UIBezierPath(rect: cell.viewCard.bounds).cgPath
+        /*cell.viewCard.layer.shadowPath = UIBezierPath(rect: cell.viewCard.bounds).cgPath
         cell.viewCard.layer.shadowColor = UIColor.gray.cgColor
         cell.viewCard.layer.shadowOpacity = 0.25
         cell.viewCard.layer.shadowOffset = CGSize.zero
         cell.viewCard.layer.shadowRadius = 10
         cell.viewCard.layer.masksToBounds = true;
-        cell.viewCard.clipsToBounds = false;
+        cell.viewCard.clipsToBounds = false;*/
 
         return cell
     }
@@ -119,6 +148,15 @@ class NewsTableViewController: UITableViewController {
         if scrollView == appBar.headerViewController.headerView.trackingScrollView {
             let headerView = appBar.headerViewController.headerView
             headerView.trackingScrollWillEndDragging(withVelocity: velocity, targetContentOffset: targetContentOffset)
+        }
+    }
+    
+    func finitoDiCaricare() {
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+            self.newsList = self.databaseRealm.ritornaArrayNews()
+            print("finito ", self.newsList.count)
+            self.tableView.reloadData()
         }
     }
 
@@ -166,7 +204,8 @@ class NewsTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "showDetail" {
-            let detailController = segue.destination as! NewsDetailViewController
+            let navigationController = segue.destination as! UINavigationController
+            let detailController = navigationController.topViewController as! NewsDetailViewController
             
             if let selectedNewsCell = sender as? cellOfNews {
                 let indexPath = self.tableView.indexPath(for: selectedNewsCell)!

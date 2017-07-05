@@ -11,12 +11,29 @@ import ActionSheetPicker_3_0
 
 class SettingsTableViewController: UITableViewController {
     
+    @IBOutlet weak var minutes: UIButton!
+    
+    static let NOTIFICATION_MINUTES = "NOTIFICATION_MINUTES"
+    
     var minutesArray: Array<Int> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
+        
+        
+        
+        let min = UserDefaults.standard.integer(forKey: SettingsTableViewController.NOTIFICATION_MINUTES)
+        
+        if min != 0 {
+            minutes.setTitle("\(min) min", for: .normal)
+        } else {
+            minutes.setTitle("10 min", for: .normal)
+        }
+        
+        // nasconde le righe vuote della tableview
+        self.tableView.tableFooterView = UIView()
         
         initArray()
 
@@ -131,7 +148,10 @@ class SettingsTableViewController: UITableViewController {
     @IBAction func notificationMinutes(_ sender: Any) {
         let action = ActionSheetStringPicker(title: "Seleziona i minuti", rows: minutesArray, initialSelection: 0, doneBlock: {
             picker, index, values in
+            print(values as! Int)
             
+            self.minutes.setTitle("\(values as! Int) min", for: .normal)
+            UserDefaults.standard.set(values as! Int, forKey: SettingsTableViewController.NOTIFICATION_MINUTES)
             return
         }, cancel:{
             ActionSheetStringPicker in return

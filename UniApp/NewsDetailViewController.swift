@@ -9,6 +9,7 @@
 import UIKit
 import SDWebImage
 import MaterialComponents.MaterialAppBar
+import MaterialComponents.MaterialActivityIndicator
 
 class NewsDetailViewController: UIViewController {
     
@@ -44,10 +45,15 @@ class NewsDetailViewController: UIViewController {
         
         //appBar.navigationBar.leftBarButtonItem = backButton
         
-        newsImage.sd_setImage(with: URL(string: "https://www.placehold.it/800x600"), placeholderImage: UIImage(named: "LogoConsorzio"))
+        newsImage.sd_setImage(with: URL(string: news.media), placeholderImage: UIImage(named: "LogoConsorzio"))
+        newsDate.text = news.createdAt
+        newsTitle.text = news.title
+        newsDetail.text = news.content
+        
+        /*newsImage.sd_setImage(with: URL(string: "https://www.placehold.it/800x600"), placeholderImage: UIImage(named: "LogoConsorzio"))
         newsDate.text = "28 giugno 2017"
         newsTitle.text = "Corso Biometria 2017 – tecniche, normativa e applicazioni"
-        newsDetail.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus, orci ut fermentum ultrices, nunc nisl iaculis erat, ornare ullamcorper dui nisi sed mi. Mauris non fringilla nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque eu orci et ante vestibulum tristique. Donec dapibus mi a quam blandit, at consectetur lectus elementum. Morbi aliquam rutrum nulla vel vulputate. Ut et tristique ipsum, sed ullamcorper risus. Mauris aliquet feugiat urna. Cras et laoreet tellus. Fusce consequat volutpat justo quis ornare. Sed augue orci, euismod nec augue vitae, condimentum malesuada nulla. Aenean hendrerit bibendum augue, in pharetra sem condimentum a. In hac habitasse platea dictumst. Donec auctor rutrum finibus. Vivamus eget tellus efficitur, vulputate ligula et, aliquet metus. Nunc et varius neque, at porttitor nunc. Suspendisse malesuada, risus et elementum faucibus, nisl lorem sollicitudin ipsum, quis gravida mi diam nec libero. Cras pharetra enim mi, ut posuere nisi tristique non. Sed rutrum magna vitae urna malesuada, at laoreet tortor fringilla. Donec molestie, sem vitae euismod volutpat, velit dui efficitur purus, et tempus enim ligula eget elit. Pellentesque consectetur, orci a interdum ultricies, neque leo tincidunt lectus, eu luctus dolor libero nec sapien. Nulla nec varius sem. Duis feugiat imperdiet felis, fringilla blandit velit sodales in. Maecenas suscipit felis ut sapien sodales maximus sit amet finibus leo. Nunc bibendum sed urna porttitor viverra. Mauris ut augue sit amet felis auctor dignissim id quis nunc. Proin placerat, leo in eleifend sodales, ante felis consectetur enim, non rutrum metus purus at lectus. Nam iaculis urna malesuada, molestie nibh iaculis, auctor nisl. Etiam sodales tempus neque in volutpat. Duis et laoreet sem, id convallis odio. Ut posuere cursus magna, a porttitor massa consequat eget. Fusce dapibus elit eget vestibulum porttitor."
+        newsDetail.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus, orci ut fermentum ultrices, nunc nisl iaculis erat, ornare ullamcorper dui nisi sed mi. Mauris non fringilla nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque eu orci et ante vestibulum tristique. Donec dapibus mi a quam blandit, at consectetur lectus elementum. Morbi aliquam rutrum nulla vel vulputate. Ut et tristique ipsum, sed ullamcorper risus. Mauris aliquet feugiat urna. Cras et laoreet tellus. Fusce consequat volutpat justo quis ornare. Sed augue orci, euismod nec augue vitae, condimentum malesuada nulla. Aenean hendrerit bibendum augue, in pharetra sem condimentum a. In hac habitasse platea dictumst. Donec auctor rutrum finibus. Vivamus eget tellus efficitur, vulputate ligula et, aliquet metus. Nunc et varius neque, at porttitor nunc. Suspendisse malesuada, risus et elementum faucibus, nisl lorem sollicitudin ipsum, quis gravida mi diam nec libero. Cras pharetra enim mi, ut posuere nisi tristique non. Sed rutrum magna vitae urna malesuada, at laoreet tortor fringilla. Donec molestie, sem vitae euismod volutpat, velit dui efficitur purus, et tempus enim ligula eget elit. Pellentesque consectetur, orci a interdum ultricies, neque leo tincidunt lectus, eu luctus dolor libero nec sapien. Nulla nec varius sem. Duis feugiat imperdiet felis, fringilla blandit velit sodales in. Maecenas suscipit felis ut sapien sodales maximus sit amet finibus leo. Nunc bibendum sed urna porttitor viverra. Mauris ut augue sit amet felis auctor dignissim id quis nunc. Proin placerat, leo in eleifend sodales, ante felis consectetur enim, non rutrum metus purus at lectus. Nam iaculis urna malesuada, molestie nibh iaculis, auctor nisl. Etiam sodales tempus neque in volutpat. Duis et laoreet sem, id convallis odio. Ut posuere cursus magna, a porttitor massa consequat eget. Fusce dapibus elit eget vestibulum porttitor."*/
 
         // Do any additional setup after loading the view.
     }
