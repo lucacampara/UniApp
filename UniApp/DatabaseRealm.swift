@@ -26,6 +26,11 @@ class DatabaseRealm: NSObject {
     
     func ritornaDicionaryArrayRealmOrari() -> Dictionary<String, Array<OrarioRealm>>{
         var orari = [OrarioRealm]()
+        let dataOdierna = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy"
+        let result = formatter.string(from: dataOdierna)
+
         var emptyDictionary = [String: Array<OrarioRealm>]()
         do {
             let realm = try Realm()
@@ -34,6 +39,7 @@ class DatabaseRealm: NSObject {
                 var data = orari[0].dataLezione
                 var arrayOrariCorrenti = [OrarioRealm]()
                 for orario in orari {
+                    if (orario.dataLezione >= result) {
                     if (data != orario.dataLezione) {
                         emptyDictionary[data] = arrayOrariCorrenti
                         data = orario.dataLezione
@@ -41,6 +47,7 @@ class DatabaseRealm: NSObject {
                         arrayOrariCorrenti.removeAll()
                     } else {
                         arrayOrariCorrenti.append(orario)
+                    }
                     }
                 }
             }
