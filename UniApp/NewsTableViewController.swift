@@ -110,6 +110,10 @@ class NewsTableViewController: UITableViewController, controllaCaricamento {
         cell.labelTitle.text = arrayTitleLabel[indexPath.row]
         cell.labelContent.text = arrayContentLabel[indexPath.row]*/
         
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        cell.selectedBackgroundView = view
+        
         cell.labelData.text = newsList[indexPath.row].dataNews
         cell.labelTitle.text = newsList[indexPath.row].title
         cell.labelContent.text = newsList[indexPath.row].content
