@@ -22,8 +22,6 @@ class SettingsTableViewController: UITableViewController {
         
         tableView.delegate = self
         
-        
-        
         let min = UserDefaults.standard.integer(forKey: SettingsTableViewController.NOTIFICATION_MINUTES)
         
         if min != 0 {
@@ -71,14 +69,14 @@ class SettingsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         print("did select \(indexPath.row)")
-        if  indexPath.row == 1 {
-            let action = ActionSheetStringPicker(title: "Seleziona i minuti", rows: [minutesArray], initialSelection: 5, doneBlock: {
+        if indexPath.row == 1 {
+            /*let action = ActionSheetStringPicker(title: "Seleziona i minuti", rows: [minutesArray], initialSelection: 5, doneBlock: {
                 picker, index, values in
                 
                 return
@@ -87,8 +85,33 @@ class SettingsTableViewController: UITableViewController {
             }, origin: nil)
                 
             action?.tapDismissAction = TapAction.cancel
-            action?.show()
+            action?.show()*/
+        } else if indexPath.row == 2 {
+            showAlert(title: "Logout", message: "Sei sicuro di voler eseguire il logout?", number: 2)
         }
+    }
+    
+    
+    func showAlert(title: String, message: String, number: Int) {
+        let alertView = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alertAction) -> Void in
+            switch number {
+                case 0:
+                    // disattiva notifiche
+                    
+                    break
+                case 2:
+                    // logout
+                    UserDefaults.standard.set(nil, forKey: ViewController.USER_TOKEN)
+                    self.performSegue(withIdentifier: "logout", sender: self)
+                    break
+                default:
+                    break
+                
+            }
+        }))
+        alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alertView, animated: true, completion: nil)
     }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

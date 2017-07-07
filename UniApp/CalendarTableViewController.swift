@@ -217,7 +217,15 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
             var lezione = (self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row])!
             print(lezione)
             
-            self.addToCalendar(title: lezione.name, start: lezione.oraInizioLezione, end: lezione.oraFineLezione)
+            
+            let alertView = UIAlertController(title: "Aggiungi  al calendario", message: "Vuoi aggiungere questa lezione al tuo calendario?", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alertAction) -> Void in
+                self.addToCalendar(title: lezione.name, start: lezione.time_start, end: lezione.time_end)
+            }))
+            alertView.addAction(UIAlertAction(title: "Annulla", style: .cancel, handler: nil))
+            self.present(alertView, animated: true, completion: nil)
+
+            
         }
         
         calendarAction.transitionDelegate = ScaleTransition.default
@@ -231,29 +239,40 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
     
     func addToCalendar(title: String, start: String, end: String) {
         
-            let store = EKEventStore()
-            store.requestAccess(to: .event) {(granted, error) in
-                if !granted { return }
-                
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                let dateStart = dateFormatter.date(from: start)
-                let dateEnd = dateFormatter.date(from: end)
-                
-                print(dateStart)
-                
-                var event = EKEvent(eventStore: store)
-                event.title = title
-                event.startDate = dateStart!
-                event.endDate = dateEnd!
-                event.calendar = store.defaultCalendarForNewEvents
-                
-                do {
-                    try store.save(event, span: .thisEvent, commit: true)
-                    let savedEventId = event.eventIdentifier //save event id to access this particular event later
-                } catch {
-                    // Display error to user
-                }
+        print("start ", start)
+        
+        
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        //let dateFormatterPrint = DateFormatter()
+        //dateFormatterPrint.dateFormat = "MMM dd,yyyy"
+        
+        let store = EKEventStore()
+        store.requestAccess(to: .event) {(granted, error) in
+            if !granted { return }
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            //let dateStart = Date()
+            //let dateEnd = dateFormatter.date(from: end) as Date
+            
+            let dateStart = dateFormatterGet.date(from: start)
+            let dateEnd = dateFormatterGet.date(from: end)
+
+            
+            var event = EKEvent(eventStore: store)
+            event.title = title
+            event.startDate = dateStart!
+            event.endDate = dateEnd!
+            event.calendar = store.defaultCalendarForNewEvents
+            
+            do {
+                try store.save(event, span: .thisEvent, commit: true)
+                let savedEventId = event.eventIdentifier //save event id to access this particular event later
+            } catch {
+                // Display error to user
+            }
             
         }
     }

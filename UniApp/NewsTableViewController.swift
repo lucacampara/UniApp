@@ -35,6 +35,7 @@ class NewsTableViewController: UITableViewController, controllaCaricamento {
     let token = UserDefaults.standard.string(forKey: ViewController.USER_TOKEN)
     var currentPage = 1
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -113,7 +114,14 @@ class NewsTableViewController: UITableViewController, controllaCaricamento {
         cell.labelTitle.text = newsList[indexPath.row].title
         cell.labelContent.text = newsList[indexPath.row].content
         cell.imageNews.sd_setImage(with: URL(string: newsList[indexPath.row].media), placeholderImage: UIImage(named: "LogoConsorzio"))
-        //cell.newImage.sd_setImage(with: URL(string: newsList[indexPath.row].media), placeholderImage: UIImage(named: "LogoConsorzio"))
+        
+        let blur = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blurView = UIVisualEffectView(effect: blur)
+        blurView.frame = cell.imageNews.bounds
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        cell.imageNews.addSubview(blurView)
+        
+        cell.newImage.sd_setImage(with: URL(string: newsList[indexPath.row].media), placeholderImage: UIImage(named: "LogoConsorzio"))
         
         /*cell.viewCard.layer.shadowPath = UIBezierPath(rect: cell.viewCard.bounds).cgPath
         cell.viewCard.layer.shadowColor = UIColor.gray.cgColor
