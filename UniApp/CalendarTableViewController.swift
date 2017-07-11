@@ -76,8 +76,8 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         
         if dictionary.count == 0 {
             activityIndicator.startAnimating()
-            chiamate.richiesteDatiGET(access_token: token!, scelta: .TIMETABLE, pagina: 0)
         }
+        chiamate.richiesteDatiGET(access_token: token!, scelta: .TIMETABLE, pagina: 0)
         
 
         addChildViewController(appBar.headerViewController)
