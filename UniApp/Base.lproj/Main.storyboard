@@ -308,6 +308,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gpq-15-Swv">
                                                     <rect key="frame" x="310" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="SwitchAction:" destination="ljp-V9-p9A" eventType="valueChanged" id="6rs-Rg-MNM"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -387,6 +390,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="minutes" destination="cEb-78-vbU" id="jgA-to-ETl"/>
+                        <outlet property="switch" destination="gpq-15-Swv" id="SUH-J5-lcH"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="logout" id="cw5-nE-hlr"/>
                     </connections>
                 </tableViewController>

@@ -12,6 +12,7 @@ import ActionSheetPicker_3_0
 class SettingsTableViewController: UITableViewController {
     
     @IBOutlet weak var minutes: UIButton!
+    @IBOutlet weak var `switch`: UISwitch!
     
     static let NOTIFICATION_MINUTES = "NOTIFICATION_MINUTES"
     
@@ -98,7 +99,7 @@ class SettingsTableViewController: UITableViewController {
             switch number {
                 case 0:
                     // disattiva notifiche
-                    
+                    self.cancelAllNotifications()
                     break
                 case 2:
                     // logout
@@ -113,6 +114,12 @@ class SettingsTableViewController: UITableViewController {
         alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alertView, animated: true, completion: nil)
     }
+    
+    
+    func cancelAllNotifications() {
+        UIApplication.shared.cancelAllLocalNotifications()
+    }
+    
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
@@ -167,6 +174,17 @@ class SettingsTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    @IBAction func SwitchAction(_ sender: Any) {
+        if self.switch.isOn {
+            print("IS ON")
+            
+        } else {
+            print("IS OFF")
+            self.showAlert(title: "Disattiva Notifiche", message: "Vuoi disattivare tutte le notifiche impostate?", number: 0)
+        }
+    }
     
     @IBAction func notificationMinutes(_ sender: Any) {
         let action = ActionSheetStringPicker(title: "Seleziona i minuti", rows: minutesArray, initialSelection: 0, doneBlock: {

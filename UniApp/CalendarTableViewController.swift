@@ -60,6 +60,7 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         print(allKeysDays)
         
         
+        
         let token = UserDefaults.standard.string(forKey: ViewController.USER_TOKEN)
         
         chiamate.delegateCaricamento = self
@@ -187,6 +188,8 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
+        
+        var lezione = (self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row])!
     
         // #### NOTIFICATION ACTION ### \\
         
@@ -196,7 +199,18 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
                 "Sicuro di voler attivare la notifica per questa lezione?", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "Annulla", style: UIAlertActionStyle.default,handler: nil))
             alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: { action in
-                self.scheduleNotification(title: "Lezione di Gino Parigino", contents: "La lezione sta per iniziare! Muovi il culo!", hour: 16, minute: 6)
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                let dateStart = dateFormatter.date(from: lezione.time_start)
+                
+                var notificatioMinutesBefore = UserDefaults.standard.integer(forKey: SettingsTableViewController.NOTIFICATION_MINUTES)
+                
+                if notificatioMinutesBefore == 0 {
+                    notificatioMinutesBefore = 10
+                }
+                
+                self.scheduleNotification(title: lezione.name, contents: "La lezione sta per iniziare! Muovi il culo!", date: Calendar.current.date(byAdding: .minute, value: -notificatioMinutesBefore, to: dateStart!)!)
             }))
             
             self.present(alertController, animated: true, completion: nil)
@@ -214,10 +228,7 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         
         let calendarAction = SwipeAction(style: .default, title: "Aggiungi al\ncalendario") { action, indexPath in
             print("PULSANTE CALENDARIO PREMUTO")
-            var lezione = (self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row])!
-            print(lezione)
-            
-            
+
             let alertView = UIAlertController(title: "Aggiungi  al calendario", message: "Vuoi aggiungere questa lezione al tuo calendario?", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alertAction) -> Void in
                 self.addToCalendar(title: lezione.name, start: lezione.time_start, end: lezione.time_end)
@@ -253,19 +264,22 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
             if !granted { return }
             
             let dateFormatter = DateFormatter()
+            dateFormatter.timeZone = TimeZone(abbreviation: "CET")
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
             //let dateStart = Date()
             //let dateEnd = dateFormatter.date(from: end) as Date
             
             let dateStart = dateFormatterGet.date(from: start)
             let dateEnd = dateFormatterGet.date(from: end)
-
+            
+            print(dateStart)
             
             var event = EKEvent(eventStore: store)
             event.title = title
             event.startDate = dateStart!
             event.endDate = dateEnd!
             event.calendar = store.defaultCalendarForNewEvents
+            
             
             do {
                 try store.save(event, span: .thisEvent, commit: true)
@@ -355,7 +369,7 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         UNUserNotificationCenter.current().getNotificationSettings{(settings) in
             if(settings.authorizationStatus == .authorized){
                 //User give authorized
-                self.scheduleNotification(title: "Notifica insulatativa", contents: "vai a farti fottere", hour: 11, minute: 48)
+//                self.scheduleNotification(title: "Notifica insulatativa", contents: "vai a farti fottere", year: 1, month: 1, day: 1, hour: 11, minute: 48)
             }else{
                 //User not give authorized
                 UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert], completionHandler:{ (granted, error) in
@@ -364,7 +378,7 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
                         
                     }else{
                         if(granted){
-                            self.scheduleNotification(title: "Notifica insulatativa", contents: "vai a farti fottere", hour: 12, minute: 02)
+       //                     self.scheduleNotification(title: "Notifica insulatativa", contents: "vai a farti fottere", year: 1, month: 1, day: 1, hour: 12, minute: 02)
                         }
                     }
                 })
@@ -372,14 +386,22 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         }
     }
     
-    func scheduleNotification(title: String, contents: String, hour: Int, minute: Int){
+    func scheduleNotification(title: String, contents: String, date: Date){
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = contents
         
+        print("DATA CON SOTTRAZIONE ", date)
+        
+        let calendar = Calendar.current
+        
         var dateInfo = DateComponents()
-        dateInfo.hour = hour
-        dateInfo.minute = minute
+        dateInfo.year = calendar.component(.year, from: date)
+        dateInfo.month = calendar.component(.month, from: date)
+        dateInfo.day = calendar.component(.day, from: date)
+        dateInfo.hour = calendar.component(.hour, from: date)
+        dateInfo.minute = calendar.component(.minute, from: date)
+        
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: false)
         
         let NotificationRequest = UNNotificationRequest(identifier: "timedNotificationIdentifier", content: content, trigger: trigger)

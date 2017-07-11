@@ -45,9 +45,10 @@ class DatabaseRealm: NSObject {
                         data = orario.dataLezione
                         print("DATA ", orario.dataLezione)
                         arrayOrariCorrenti.removeAll()
-                    } else {
-                        arrayOrariCorrenti.append(orario)
                     }
+                    
+                    arrayOrariCorrenti.append(orario)
+                    
                     }
                 }
             }
