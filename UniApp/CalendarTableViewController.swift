@@ -204,58 +204,82 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
     
         // #### NOTIFICATION ACTION ### \\
         
+        let justNotified = UserDefaults.standard.bool(forKey: "\(lezione.classe)-Notification")
+
         let notificationAction = SwipeAction(style: .default, title: "Abilita\nnotifica") { action, indexPath in
             
-            let alertController = UIAlertController(title: "Notifica", message:
-                "Sicuro di voler attivare la notifica per questa lezione?", preferredStyle: UIAlertControllerStyle.alert)
-            alertController.addAction(UIAlertAction(title: "Annulla", style: UIAlertActionStyle.default,handler: nil))
-            alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: { action in
+            if(justNotified != true){
+                let alertController = UIAlertController(title: "Notifica", message:
+                    "Sicuro di voler attivare la notifica per questa lezione?", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "Annulla", style: UIAlertActionStyle.default,handler: nil))
+                alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: { action in
+                    
+                    self.tableView.reloadData()
+                    
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    let dateStart = dateFormatter.date(from: lezione.time_start)
+                    
+                    var notificatioMinutesBefore = UserDefaults.standard.integer(forKey: SettingsTableViewController.NOTIFICATION_MINUTES)
+                    
+                    if notificatioMinutesBefore == 0 {
+                        notificatioMinutesBefore = 10
+                    }
+                    
+                    self.scheduleNotification(title: lezione.name, contents: "\(lezione.classe) - \(lezione.oraInizioLezione)", date: Calendar.current.date(byAdding: .minute, value: -notificatioMinutesBefore, to: dateStart!)!)
+                    
+                    UserDefaults.standard.set(true, forKey: "\(lezione.classe)-Notification")
+                }))
                 
-                self.tableView.reloadData()
-                
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                let dateStart = dateFormatter.date(from: lezione.time_start)
-                
-                var notificatioMinutesBefore = UserDefaults.standard.integer(forKey: SettingsTableViewController.NOTIFICATION_MINUTES)
-                
-                if notificatioMinutesBefore == 0 {
-                    notificatioMinutesBefore = 10
-                }
-                
-                self.scheduleNotification(title: lezione.name, contents: "La lezione sta per iniziare! Muovi il culo!", date: Calendar.current.date(byAdding: .minute, value: -notificatioMinutesBefore, to: dateStart!)!)
-            }))
-            
-            self.present(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
+            }
         }
         
         let gray = UIColor(white: 1, alpha: 0.5)
         
         notificationAction.textColor = UIColor.orange
-        notificationAction.image = UIImage(named: "Notification")
+        
+        if(justNotified == true){
+            notificationAction.image = UIImage(named: "NotificationDone")
+            notificationAction.title = "Notifica\nabilitata"
+            notificationAction.textColor = UIColor(red: 0.0, green: 1.0, blue: 0.2, alpha: 1.0)
+            
+        }else{
+            notificationAction.image = UIImage(named: "Notification")
+        }
+        
         notificationAction.transitionDelegate = ScaleTransition.default
         notificationAction.backgroundColor = gray
 
         
         // #### CALENDAR ACTION ### \\
         
+        let justCalendared = UserDefaults.standard.bool(forKey: lezione.classe)
+        
         let calendarAction = SwipeAction(style: .default, title: "Aggiungi al\ncalendario") { action, indexPath in
             print("PULSANTE CALENDARIO PREMUTO")
-
-            let alertView = UIAlertController(title: "Aggiungi  al calendario", message: "Vuoi aggiungere questa lezione al tuo calendario?", preferredStyle: .alert)
-            alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alertAction) -> Void in
-                self.tableView.reloadData()
-                self.addToCalendar(title: lezione.name, start: lezione.time_start, end: lezione.time_end)
-            }))
-            alertView.addAction(UIAlertAction(title: "Annulla", style: .cancel, handler: nil))
-            self.present(alertView, animated: true, completion: nil)
-
-            
+            if(justCalendared != true){
+                let alertView = UIAlertController(title: "Aggiungi  al calendario", message: "Vuoi aggiungere questa lezione al tuo calendario?", preferredStyle: .alert)
+                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alertAction) -> Void in
+                    self.tableView.reloadData()
+                    self.addToCalendar(title: lezione.name, start: lezione.time_start, end: lezione.time_end)
+                    UserDefaults.standard.set(true, forKey: lezione.classe)
+                }))
+                alertView.addAction(UIAlertAction(title: "Annulla", style: .cancel, handler: nil))
+                self.present(alertView, animated: true, completion: nil)
+            }
         }
         
+        if(justCalendared == true){
+            calendarAction.title = "Evento\naggiunto"
+            calendarAction.textColor = UIColor(red: 0.0, green: 1.0, blue: 0.2, alpha: 1.0)
+            calendarAction.image = UIImage(named: "CalendarDone")
+        }else{
+            calendarAction.textColor = UIColor.orange
+            calendarAction.image = UIImage(named: "CalendarPlus")
+        }
         calendarAction.transitionDelegate = ScaleTransition.default
-        calendarAction.textColor = UIColor.orange
-        calendarAction.image = UIImage(named: "CalendarPlus")
+        
         calendarAction.backgroundColor = gray
         
         return [calendarAction, notificationAction]
