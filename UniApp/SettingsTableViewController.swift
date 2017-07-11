@@ -15,6 +15,7 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var `switch`: UISwitch!
     
     static let NOTIFICATION_MINUTES = "NOTIFICATION_MINUTES"
+    static let NOTIFICATION_SWITCH_STATUS = "NOTIFICATION_SWITCH_STATUS"
     
     var minutesArray: Array<Int> = []
     
@@ -22,6 +23,11 @@ class SettingsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.delegate = self
+        
+        let switchStatusInteger = UserDefaults.standard.integer(forKey: SettingsTableViewController.NOTIFICATION_SWITCH_STATUS)
+        if switchStatusInteger == -1 {
+            self.switch.setOn(false, animated: false)
+        }
         
         let min = UserDefaults.standard.integer(forKey: SettingsTableViewController.NOTIFICATION_MINUTES)
         
@@ -76,17 +82,37 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         print("did select \(indexPath.row)")
-        if indexPath.row == 1 {
-            /*let action = ActionSheetStringPicker(title: "Seleziona i minuti", rows: [minutesArray], initialSelection: 5, doneBlock: {
+        if indexPath.row == 0 {
+            
+            if self.switch.isOn {
+                print("IS OFF")
+                self.showAlert(title: "Disattiva Notifiche", message: "Vuoi disattivare tutte le notifiche impostate?", number: 0)
+            } else {
+                self.switch.setOn(true, animated: true)
+                UserDefaults.standard.set(0, forKey: SettingsTableViewController.NOTIFICATION_SWITCH_STATUS)
+            }
+            
+            self.tableView.deselectRow(at: IndexPath(row: 0, section: 0), animated: true)
+            
+            
+        } else if indexPath.row == 1 {
+            
+            let action = ActionSheetStringPicker(title: "Seleziona i minuti", rows: minutesArray, initialSelection: 0, doneBlock: {
                 picker, index, values in
+                print(values as! Int)
                 
+                self.minutes.setTitle("\(values as! Int) min", for: .normal)
+                UserDefaults.standard.set(values as! Int, forKey: SettingsTableViewController.NOTIFICATION_MINUTES)
                 return
-            }, cancel:{
+            }, cancel: {
                 ActionSheetStringPicker in return
-            }, origin: nil)
-                
+            }, origin: tableView)
+            
             action?.tapDismissAction = TapAction.cancel
-            action?.show()*/
+            action?.show()
+            
+            self.tableView.deselectRow(at: IndexPath(row: 1, section: 0), animated: true)
+            
         } else if indexPath.row == 2 {
             showAlert(title: "Logout", message: "Sei sicuro di voler eseguire il logout?", number: 2)
         }
@@ -99,7 +125,9 @@ class SettingsTableViewController: UITableViewController {
             switch number {
                 case 0:
                     // disattiva notifiche
+                    self.switch.setOn(false, animated: true)
                     self.cancelAllNotifications()
+                    UserDefaults.standard.set(-1, forKey: SettingsTableViewController.NOTIFICATION_SWITCH_STATUS)
                     break
                 case 2:
                     // logout
@@ -111,7 +139,17 @@ class SettingsTableViewController: UITableViewController {
                 
             }
         }))
-        alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
+            switch number {
+            case 0:
+                self.switch.setOn(true, animated: true)
+                break
+            default:
+                break
+                
+            }
+        }))
+
         self.present(alertView, animated: true, completion: nil)
     }
     
@@ -179,7 +217,7 @@ class SettingsTableViewController: UITableViewController {
     @IBAction func SwitchAction(_ sender: Any) {
         if self.switch.isOn {
             print("IS ON")
-            
+            UserDefaults.standard.set(0, forKey: SettingsTableViewController.NOTIFICATION_SWITCH_STATUS)
         } else {
             print("IS OFF")
             self.showAlert(title: "Disattiva Notifiche", message: "Vuoi disattivare tutte le notifiche impostate?", number: 0)
@@ -194,12 +232,14 @@ class SettingsTableViewController: UITableViewController {
             self.minutes.setTitle("\(values as! Int) min", for: .normal)
             UserDefaults.standard.set(values as! Int, forKey: SettingsTableViewController.NOTIFICATION_MINUTES)
             return
-        }, cancel:{
+        }, cancel: {
             ActionSheetStringPicker in return
         }, origin: sender)
         
         action?.tapDismissAction = TapAction.cancel
         action?.show()
+        
+        self.tableView.deselectRow(at: IndexPath(row: 1, section: 0), animated: true)
     }
     
     @IBAction func doneButton(_ sender: Any) {

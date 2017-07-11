@@ -207,7 +207,7 @@ class ViewController: UIViewController, chiamateAPIDelegate, UITextFieldDelegate
             switch loginResult {
             case .failed(let error):
                 print(error)
-                self.setMessage(message: "Login cancelled")
+                self.setMessage(message: "Facebook error")
                 self.activityIndicator.stopAnimating()
             case .cancelled:
                 print("User cancelled login.")
@@ -231,11 +231,17 @@ class ViewController: UIViewController, chiamateAPIDelegate, UITextFieldDelegate
     
     @IBAction func loginButton(_ sender: Any) {
 
+        
         if (emailTextField.text?.characters.count)! > 0 && (passwordTextField.text?.characters.count)! > 0 {
             // Start animation
-            activityIndicator.startAnimating()
             
-            gestoreChiamate.richiestaAutenticazionePOST(email: emailTextField.text!, password: passwordTextField.text!, scelta: .LOGIN)
+            if Utils.internetAvailable() {
+                activityIndicator.startAnimating()
+                gestoreChiamate.richiestaAutenticazionePOST(email: emailTextField.text!, password: passwordTextField.text!, scelta: .LOGIN)
+            } else {
+                self.setMessage(message: "Nessuna connessione Internet")
+            }
+    
         } else {
             self.setMessage(message: "Inserisci tutti i campi")
         }

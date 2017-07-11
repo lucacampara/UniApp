@@ -118,8 +118,13 @@ class RegistrationViewController: UIViewController, chiamateAPIDelegate, UITextF
         if (emailRegistrationTextField.text?.characters.count)! > 0 && (passwordRegistrationTextField.text?.characters.count)! > 0 && (repeatPasswordRegistrationTextField.text?.characters.count)! > 0 {
             
             if  passwordRegistrationTextField.text == repeatPasswordRegistrationTextField.text {
-                activityIndicator.startAnimating()
-                gestoreChiamate.richiestaAutenticazionePOST(email: emailRegistrationTextField.text!, password: passwordRegistrationTextField.text!, scelta: .SIGNUP)
+                
+                if Utils.internetAvailable() {
+                    activityIndicator.startAnimating()
+                    gestoreChiamate.richiestaAutenticazionePOST(email: emailRegistrationTextField.text!, password: passwordRegistrationTextField.text!, scelta: .SIGNUP)
+                } else {
+                    self.setMessage(message: "Nessuna connessione Internet")
+                }
                 print("ok password")
             } else {
                 print("password failed")
