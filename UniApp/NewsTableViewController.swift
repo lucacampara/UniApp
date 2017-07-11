@@ -33,7 +33,7 @@ class NewsTableViewController: UITableViewController, controllaCaricamento {
     var arrayContentLabel: [String] = ["Con il 1° gennaio 2014 i due ERDISU regionali sono stati soppressi facendo nascere l&#8217;ARDISS, ovvero l&#8217;Agenzia regionale per il diritto agli studi superiori, assorbendo le finalità ed i servizi dei precedenti enti nell&#8217;ottica di riorganizzare il diritto allo studio superiore in Friuli Venezia Giulia", "Massimo Di Silverio, 55 anni, laureato in Scienze politiche, è il nuovo direttore generale dell&#8217;Ateneo friulano. L&#8217;incarico, di durata triennale e rinnovabile, è stato deliberato all&#8217;unanimità dal"];
     
     let token = UserDefaults.standard.string(forKey: ViewController.USER_TOKEN)
-    var currentPage = 1
+    var currentPage = 11
     
 
     override func viewDidLoad() {
@@ -139,9 +139,9 @@ class NewsTableViewController: UITableViewController, controllaCaricamento {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if  indexPath.row == (self.newsList.count - 5) {
+        if  indexPath.row >= (self.newsList.count - 5) {
             print("nuova chiamata")
-            currentPage += 1
+            currentPage -= 1
             chiamate.richiesteDatiGET(access_token: token!, scelta: .POSTS, pagina: currentPage)
         }
     }

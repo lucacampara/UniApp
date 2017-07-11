@@ -11,6 +11,7 @@ import MaterialComponents.MaterialAppBar
 import SwipeCellKit
 import UserNotifications
 import EventKit
+import MaterialComponents.MDCActivityIndicator
 
 class cellOfCalendar: SwipeTableViewCell{
     @IBOutlet weak var labelCourse: UILabel!
@@ -35,6 +36,8 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
     var dictionary = [String: Array<OrarioRealm>]()
     let chiamate = ChiamateAPI()
     
+    var activityIndicator = MDCActivityIndicator()
+    
     var allKeysDays = Array<String>()
     
     let appBar = MDCAppBar()
@@ -50,6 +53,12 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         permissionNotification();
         
         initColors()
+        
+        let w = self.view.frame.size.width/2 - 30
+        let h = self.view.frame.size.height/2 - 30
+        activityIndicator = MDCActivityIndicator(frame: CGRect(x: w, y: h, width: 60, height: 60))
+        activityIndicator.cycleColors = [Utils.UIColorFromRGB(rgbValue: 0xAD2222)]
+        view.addSubview(activityIndicator)
 
 //  calendarList = databaseRealm.ritornaArrayOrari() as! [OrarioRealm]
         
@@ -66,6 +75,7 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         chiamate.delegateCaricamento = self
         
         if dictionary.count == 0 {
+            activityIndicator.startAnimating()
             chiamate.richiesteDatiGET(access_token: token!, scelta: .TIMETABLE, pagina: 0)
         }
         
@@ -99,6 +109,7 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
     func finitoDiCaricare(page: Int) {
         DispatchQueue.main.async {
 //            self.calendarList = self.databaseRealm.ritornaArrayOrari() as! [OrarioRealm]
+            self.activityIndicator.stopAnimating()
             self.dictionary = self.databaseRealm.ritornaDicionaryArrayRealmOrari()
             self.allKeysDays = Array(self.dictionary.keys).sorted(by: {$0<$1})
             print("finito ", self.dictionary.count)
