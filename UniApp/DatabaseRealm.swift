@@ -14,7 +14,8 @@ class DatabaseRealm: NSObject {
         var news = [NewsRealm]()
         do {
             let realm = try Realm()
-            news = Array(realm.objects(NewsRealm.self))
+            news = Array(realm.objects(NewsRealm.self).sorted(byKeyPath: "pub_date", ascending: false)
+)
             //print(news)
             
         } catch _ {
