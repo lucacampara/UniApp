@@ -18,7 +18,6 @@ class DatabaseRealm: NSObject {
 )
             //print(news)
             
-            
         } catch _ {
             // ...
         }
@@ -37,6 +36,7 @@ class DatabaseRealm: NSObject {
             let realm = try Realm()
             orari = realm.objects(OrarioRealm).sorted(byKeyPath: "time_start").toArray() //print(orari)
             if orari.count > 0 {
+                let primaData = orari[0].dataLezione
                 var data = orari[0].dataLezione
                 var arrayOrariCorrenti = [OrarioRealm]()
                 for orario in orari {
@@ -51,6 +51,11 @@ class DatabaseRealm: NSObject {
                     arrayOrariCorrenti.append(orario)
                     
                     }
+                }
+                
+                print("AAA ", emptyDictionary[primaData]?.count)
+                if emptyDictionary[primaData]?.count == 0 {
+                    print("PRIMA DATA 0: ")
                 }
             }
         } catch _ { // ...
