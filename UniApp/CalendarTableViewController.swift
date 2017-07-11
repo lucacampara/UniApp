@@ -200,6 +200,8 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
             alertController.addAction(UIAlertAction(title: "Annulla", style: UIAlertActionStyle.default,handler: nil))
             alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: { action in
                 
+                self.tableView.reloadData()
+                
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 let dateStart = dateFormatter.date(from: lezione.time_start)
@@ -231,6 +233,7 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
 
             let alertView = UIAlertController(title: "Aggiungi  al calendario", message: "Vuoi aggiungere questa lezione al tuo calendario?", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alertAction) -> Void in
+                self.tableView.reloadData()
                 self.addToCalendar(title: lezione.name, start: lezione.time_start, end: lezione.time_end)
             }))
             alertView.addAction(UIAlertAction(title: "Annulla", style: .cancel, handler: nil))
@@ -251,7 +254,6 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
     func addToCalendar(title: String, start: String, end: String) {
         
         print("start ", start)
-        
         
         let dateFormatterGet = DateFormatter()
         dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"

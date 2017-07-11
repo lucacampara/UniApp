@@ -57,7 +57,6 @@ class ViewController: UIViewController, chiamateAPIDelegate, UITextFieldDelegate
         prova.richiesteDatiGET(access_token: "3252261a-215c-4078-a74d-2e1c5c63f0a1", scelta: .TIMETABLE, pagina: 0)*/
         
         //print("Access token \(AccessToken.current?.authenticationToken)")
-        
 
         loginButton.layer.cornerRadius = 5
         facebookButton.layer.cornerRadius = 5
@@ -79,6 +78,8 @@ class ViewController: UIViewController, chiamateAPIDelegate, UITextFieldDelegate
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "password",
                                                                                  attributes: [NSForegroundColorAttributeName: UIColor.lightGray])
         
+    
+        self.setMessage(message: "Accedi o registrati")
     }
     
 /*    override func viewWillAppear(_ animated: Bool) {
@@ -206,10 +207,15 @@ class ViewController: UIViewController, chiamateAPIDelegate, UITextFieldDelegate
             switch loginResult {
             case .failed(let error):
                 print(error)
+                self.setMessage(message: "Login cancelled")
+                self.activityIndicator.stopAnimating()
             case .cancelled:
                 print("User cancelled login.")
+                self.setMessage(message: "Login cancelled")
+                self.activityIndicator.stopAnimating()
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 print("Logged in! \(accessToken.authenticationToken)")
+                self.activityIndicator.stopAnimating()
                 
                 // facebook chiamata
                 self.gestoreChiamate.richiestaTokenAFacebook(tokenDiFacebook: accessToken.authenticationToken)
@@ -219,7 +225,7 @@ class ViewController: UIViewController, chiamateAPIDelegate, UITextFieldDelegate
     
     func resetMessage() {
         DispatchQueue.main.async {
-            self.messageLabel.text = "Accedi o registrati"
+            self.messageLabel.text = ""
         }
     }
     
