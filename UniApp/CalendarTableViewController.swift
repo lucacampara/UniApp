@@ -203,8 +203,17 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         var lezione = (self.dictionary[self.allKeysDays[indexPath.section]]?[indexPath.row])!
     
         // #### NOTIFICATION ACTION ### \\
+        var arrayUserDefaults = [String]();
+        if(UserDefaults.standard.stringArray(forKey: "arrayUserDefaults") != nil){
+           arrayUserDefaults = UserDefaults.standard.stringArray(forKey: "arrayUserDefaults")!
+        }
         
-        let justNotified = UserDefaults.standard.bool(forKey: "\(lezione.classe)-Notification")
+
+        
+        
+//        arrayUserDefaults.append("\(lezione.classe)-Notification");
+        
+        let justNotified = arrayUserDefaults.contains("\(lezione.classe)-Notification")
 
         let notificationAction = SwipeAction(style: .default, title: "Abilita\nnotifica") { action, indexPath in
             
@@ -228,7 +237,14 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
                     
                     self.scheduleNotification(title: lezione.name, contents: "\(lezione.classe) - \(lezione.oraInizioLezione)", date: Calendar.current.date(byAdding: .minute, value: -notificatioMinutesBefore, to: dateStart!)!)
                     
-                    UserDefaults.standard.set(true, forKey: "\(lezione.classe)-Notification")
+//                    UserDefaults.standard.set(true, forKey: "\(lezione.classe)-Notification")
+                    
+                    if(UserDefaults.standard.stringArray(forKey: "arrayUserDefaults") != nil){
+                        arrayUserDefaults = UserDefaults.standard.stringArray(forKey: "arrayUserDefaults")!
+                    }
+                    arrayUserDefaults.append("\(lezione.classe)-Notification");
+                    UserDefaults.standard.set(arrayUserDefaults, forKey: "arrayUserDefaults")
+
                 }))
                 
                 self.present(alertController, animated: true, completion: nil)
@@ -254,7 +270,12 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
         
         // #### CALENDAR ACTION ### \\
         
-        let justCalendared = UserDefaults.standard.bool(forKey: lezione.classe)
+        var arrayUserDefaultsCalendar = [String]();
+        if(UserDefaults.standard.stringArray(forKey: "arrayUserDefaultsCalendar") != nil){
+            arrayUserDefaultsCalendar = UserDefaults.standard.stringArray(forKey: "arrayUserDefaultsCalendar")!
+        }
+        
+        let justCalendared = arrayUserDefaultsCalendar.contains(lezione.classe)
         
         let calendarAction = SwipeAction(style: .default, title: "Aggiungi al\ncalendario") { action, indexPath in
             print("PULSANTE CALENDARIO PREMUTO")
@@ -263,7 +284,12 @@ class CalendarTableViewController: UITableViewController, SwipeTableViewCellDele
                 alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alertAction) -> Void in
                     self.tableView.reloadData()
                     self.addToCalendar(title: lezione.name, start: lezione.time_start, end: lezione.time_end)
-                    UserDefaults.standard.set(true, forKey: lezione.classe)
+                    
+                    if(UserDefaults.standard.stringArray(forKey: "arrayUserDefaultsCalendar") != nil){
+                        arrayUserDefaultsCalendar = UserDefaults.standard.stringArray(forKey: "arrayUserDefaultsCalendar")!
+                    }
+                    arrayUserDefaultsCalendar.append(lezione.classe);
+                    UserDefaults.standard.set(arrayUserDefaultsCalendar, forKey: "arrayUserDefaultsCalendar")
                 }))
                 alertView.addAction(UIAlertAction(title: "Annulla", style: .cancel, handler: nil))
                 self.present(alertView, animated: true, completion: nil)

@@ -156,6 +156,9 @@ class SettingsTableViewController: UITableViewController {
     
     func cancelAllNotifications() {
         UIApplication.shared.cancelAllLocalNotifications()
+        var emptyArray = [String]();
+        UserDefaults.standard.set(emptyArray, forKey: "arrayUserDefaults")
+        
     }
     
     /*
