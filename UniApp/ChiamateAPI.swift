@@ -378,6 +378,11 @@ class ChiamateAPI: NSObject {
                                     
 
                                     myDictionraryTimetable["name"] = p["name"] as? String
+                                    
+                                    if myDictionraryTimetable["name"]?.range(of:"�") != nil{
+
+                                        myDictionraryTimetable["name"] = myDictionraryTimetable["name"]?.replacingOccurrences(of: "�", with: " ")
+                                    }
                                     myDictionraryTimetable["prof"] = p["prof"] as? String
                                     myDictionraryTimetable["class"] = p["class"] as? String
                                     myDictionraryTimetable["date"] = p["date"] as? String
