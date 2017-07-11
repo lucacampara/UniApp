@@ -72,23 +72,23 @@ class ChiamateAPI: NSObject {
             // Create the task that will send our login request (asynchronously)
             let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
                 // Do something with the HTTP response
-                print("Got response \(String(describing: response)) with error \(String(describing: error))")
-                print("Done.")
+                //print("Got response \(String(describing: response)) with error \(String(describing: error))")
+                //print("Done.")
                 
                 
                 if let httpResponse = response as? HTTPURLResponse {
-                    print("STATUS CODE",httpResponse.statusCode)
+                    //print("STATUS CODE",httpResponse.statusCode)
                     
                     let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
                     if let responseJSON = responseJSON as? [String: Any] {
                         
                         if (httpResponse.statusCode != 200) {
-                            print(responseJSON)
+                            //print(responseJSON)
                             
                             
                             self.delegate?.registra(access_token: "ERRORE", id: "", errore: true, tipoErrore: "token facebook non valido")
                         } else {
-                            print(responseJSON)
+                            //print(responseJSON)
                             access_token = (responseJSON["access_token"] ?? "errore") as! String
                             id = (responseJSON["id"] ?? "errore") as! String
                             
@@ -112,7 +112,7 @@ class ChiamateAPI: NSObject {
     }
     
     func richiestaAutenticazionePOST(email: String, password: String, scelta: RichiestaPOST) {
-        print("prova")
+        //print("prova")
         
         
         var access_token = ""
@@ -156,30 +156,30 @@ class ChiamateAPI: NSObject {
             // Create the task that will send our login request (asynchronously)
             let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
                 // Do something with the HTTP response
-                print("Got response \(String(describing: response)) with error \(String(describing: error))")
-                print("Done.")
+                //print("Got response \(String(describing: response)) with error \(String(describing: error))")
+                //print("Done.")
                 
                 
                 if let httpResponse = response as? HTTPURLResponse {
-                    print("STATUS CODE",httpResponse.statusCode)
+                    //print("STATUS CODE",httpResponse.statusCode)
                     
                     let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
                     if let responseJSON = responseJSON as? [String: Any] {
                         
                         if (httpResponse.statusCode != 200) {
-                        print(responseJSON)
+                        //print(responseJSON)
                         
                         errorMessage = (responseJSON["error"] ?? "errore") as! String
                         
-                        print("prova print",access_token, id)
+                        //print("prova print",access_token, id)
                         
                         self.delegate?.registra(access_token: "ERRORE", id: "", errore: true, tipoErrore: errorMessage)
                         } else {
-                            print(responseJSON)
+                            //print(responseJSON)
                             access_token = (responseJSON["access_token"] ?? "errore") as! String
                             id = (responseJSON["id"] ?? "errore") as! String
                             
-                            print("prova print",access_token, id)
+                            //print("prova print",access_token, id)
                             
                             self.delegate?.registra(access_token: access_token, id: id, errore: false, tipoErrore: "")
                         }
@@ -253,17 +253,17 @@ class ChiamateAPI: NSObject {
             // Create the task that will send our login request (asynchronously)
             let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
                 // Do something with the HTTP response
-                print("Got response \(String(describing: response)) with error \(String(describing: error))")
-                print("Done.")
+                //print("Got response \(String(describing: response)) with error \(String(describing: error))")
+                //print("Done.")
                 
                 
                 if let httpResponse = response as? HTTPURLResponse {
-                    print("STATUS CODE",httpResponse.statusCode)
+                    //print("STATUS CODE",httpResponse.statusCode)
                     if (httpResponse.statusCode != 200) {
                     
                     let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
                     if let responseJSON = responseJSON as? [String: Any] {
-                        print(responseJSON)
+                        //print(responseJSON)
                         
                         //errorMessage = (responseJSON["error"] ?? "errore") as! String
                         
@@ -342,7 +342,7 @@ class ChiamateAPI: NSObject {
                                 realm.add(news, update: true)
                             }
                             
-                            print("Database: \(news)")
+                            //print("Database: \(news)")
                         }
                         
                         self.delegateCaricamento?.finitoDiCaricare(page: pagina)
@@ -350,7 +350,7 @@ class ChiamateAPI: NSObject {
                 } catch {
                     print("Error deserializing JSON: \(error)")
                 }
-                print(posts)
+                //print(posts)
                 }
                 
                 if (scelta == .TIMETABLE || scelta == .TIMETABLE_ITS || scelta == .TIMETABLE_UNITS || scelta == .TIMETABLE_UNIUD || scelta == .TIMETABLE_ISIA) {
@@ -425,9 +425,9 @@ class ChiamateAPI: NSObject {
                                     
                                     
                                 }
-                                print (myDictionraryTimetable)
+                                //print (myDictionraryTimetable)
                                 timetable.append(myDictionraryTimetable)
-                                print("dictionary",myDictionraryTimetable)
+                                //print("dictionary",myDictionraryTimetable)
                                 print("")
                                 
                                 

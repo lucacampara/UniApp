@@ -19,6 +19,7 @@ class NewsDetailViewController: UIViewController {
     @IBOutlet weak var newsDetail: UILabel!
     @IBOutlet weak var newsDate: UILabel!
     @IBOutlet weak var newsImage: UIImageView!
+    @IBOutlet weak var imageTop: UIImageView!
     
     var news = NewsRealm()
     
@@ -46,6 +47,14 @@ class NewsDetailViewController: UIViewController {
         //appBar.navigationBar.leftBarButtonItem = backButton
         
         newsImage.sd_setImage(with: URL(string: news.media), placeholderImage: UIImage(named: "LogoConsorzio"))
+        
+        let blur = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blurView = UIVisualEffectView(effect: blur)
+        blurView.frame = newsImage.bounds
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        newsImage.addSubview(blurView)
+        
+        imageTop.sd_setImage(with: URL(string: news.media), placeholderImage: UIImage(named: "LogoConsorzio"))
         newsDate.text = news.dataNews
         newsTitle.text = news.title
         newsDetail.text = news.content

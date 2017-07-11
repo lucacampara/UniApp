@@ -52,8 +52,8 @@ class NewsTableViewController: UITableViewController, controllaCaricamento {
         print("count", newsList.count)
         if newsList.count == 0 {
             activityIndicator.startAnimating()
-            chiamate.richiesteDatiGET(access_token: token!, scelta: .POSTS, pagina: currentPage)
         }
+        chiamate.richiesteDatiGET(access_token: token!, scelta: .POSTS, pagina: currentPage)
         
         addChildViewController(appBar.headerViewController)
         appBar.headerViewController.headerView.backgroundColor = Utils.UIColorFromRGB(rgbValue: 0xAD2222)
